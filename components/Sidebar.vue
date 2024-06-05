@@ -1,11 +1,5 @@
 <script setup lang="ts">
-const isDarkMode = ref(false);
-
-useHead({
-  bodyAttrs: {
-    class: [isDarkMode ? "dark" : "false"],
-  },
-});
+const { toggleDarkMode, isDark } = useDarkMode();
 </script>
 <template>
   <button
@@ -36,6 +30,7 @@ useHead({
     class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidenav"
   >
+    <div>test {{ isDark }}</div>
     <div
       class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
@@ -224,7 +219,7 @@ useHead({
       class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20 border-r border-gray-200 dark:border-gray-700"
     >
       <button
-        @click="isDarkMode = !isDarkMode"
+        @click="toggleDarkMode"
         class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
       >
         <svg
