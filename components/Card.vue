@@ -1,10 +1,6 @@
 <script setup lang="ts">
-export type cardProps = {
-  price: string;
-  image: string;
-  title: string;
-  url: string;
-};
+import type { cardProps } from "~/types";
+
 defineProps<cardProps>();
 </script>
 
