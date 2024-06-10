@@ -1,33 +1,27 @@
 <script setup lang="ts">
-import type { cardProps, Website } from "~/types";
 const config = useRuntimeConfig();
 
-const { data } = await useAsyncData("websites", () =>
-  useStrapi().find<Website>("websites", { populate: "*" })
+const { data, pending, error, refresh } = await useAsyncData(
+  "portfolio-page",
+  () => useStrapi().findOne("portfolio-page")
 );
 
-const websites = data.value?.data || [];
-
-const mapToCardProps = (websites: Website[]): cardProps[] => {
-  return websites.map((website) => ({
-    price: website.Price || "",
-    image: config.public.strapiApiUrl + website.Image?.url || "",
-    title: website.LinkTitle || "",
-    url: website.LinkUrl || "",
-  }));
-};
-const websitesFormatted = mapToCardProps(websites);
+const content = data?.value?.data;
 </script>
 
 <template>
-  <div v-if="websitesFormatted.length" class="grid grid-cols-3 gap-8">
-    <Card
-      v-for="card in websitesFormatted"
-      :key="card.title"
-      :title="card.title"
-      :price="card.price"
-      :image="card.image"
-      :url="card.url"
-    />
+  <h1 class="text-4xl mb-8">{{ content?.title }}</h1>
+  <div v-for="block in content?.websites" :key="block.id">
+    <h2 class="text-3xl mb-8">{{ block.title }}</h2>
+    <div class="grid grid-cols-3 gap-8 mb-16">
+      <Card
+        v-for="card in block.card"
+        :key="card.id"
+        :title="card.title"
+        :subTitle="card.subTitle"
+        :image="config.public.strapiApiUrl + card.image.url"
+        :url="card.url"
+      />
+    </div>
   </div>
 </template>
