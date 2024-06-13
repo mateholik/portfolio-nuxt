@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import type { PageAttributes } from "~/types/strapiPortfolioPage";
 const config = useRuntimeConfig();
 
 const { data, pending, error, refresh } = await useAsyncData(
   "portfolio-page",
-  () => useStrapi().findOne("portfolio-page")
+  () => useStrapi().findOne<PageAttributes>("portfolio-page")
 );
 
-const content = data?.value?.data;
+const content = data.value?.data.attributes;
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const content = data?.value?.data;
         :key="card.id"
         :title="card.title"
         :subTitle="card.subTitle"
-        :image="config.public.strapiApiUrl + card.image.url"
+        :image="config.public.strapiApiUrl + card.image.data.attributes.url"
         :url="card.url"
       />
     </div>

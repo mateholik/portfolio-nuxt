@@ -1,5 +1,27 @@
+<script setup lang="ts">
+import type { PageAttributes } from "~/types/strapiPortfolioPage";
+const config = useRuntimeConfig();
+
+const { data, pending, error, refresh } = await useAsyncData(
+  "javascript-page",
+  () => useStrapi().findOne<PageAttributes>("javascript-page")
+);
+const content = data.value?.data.attributes;
+</script>
+
 <template>
-  <div>
-    <h1>javascript</h1>
+  <h1 class="text-4xl mb-8">{{ content?.title }}</h1>
+  <div v-for="block in content?.websites" :key="block.id">
+    <h2 class="text-3xl mb-8">{{ block.title }}</h2>
+    <div class="grid grid-cols-3 gap-8 mb-16">
+      <Card
+        v-for="card in block.card"
+        :key="card.id"
+        :title="card.title"
+        :subTitle="card.subTitle"
+        :image="config.public.strapiApiUrl + card.image.data.attributes.url"
+        :url="card.url"
+      />
+    </div>
   </div>
 </template>
