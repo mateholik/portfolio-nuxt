@@ -1,0 +1,7 @@
+.paslaugos {
+  &__subtitle {
+    @include mQ(768px) {
+      font-size: 1.8rem;
+    }
+  }
+}

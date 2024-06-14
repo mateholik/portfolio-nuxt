@@ -1,0 +1,99 @@
+@import 'reset';
+@import 'animations';
+@import 'settings';
+@import 'aside';
+@import 'portfolio';
+@import 'faq';
+@import 'calc';
+@import 'paslaugos';
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #fff;
+  @include mQ(768px) {
+    display: none;
+  }
+  @media (max-height: 650px) {
+    display: none;
+  }
+  &-bottom {
+    display: none;
+    @include mQ(768px) {
+      display: block;
+      position: static;
+      color: black;
+      margin: 0;
+      margin-top: 4rem;
+    }
+  }
+}
+
+.router-animation-enter-active, .router-animation-leave-active {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+}
+.router-animation-enter-active {
+  transition-delay: 0.3s;
+}
+.router-animation-enter, .router-animation-leave-to {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+.router-animation-enter-to, .router-animation-leave {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+
+.slide-menu-enter-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+}
+
+.slide-menu-leave-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slide-menu-enter-to, .slide-menu-leave {
+  max-height: 33rem;
+  overflow: hidden;
+}
+
+.slide-menu-enter, .slide-menu-leave-to {
+  overflow: hidden;
+  max-height: 0;
+}
+
+
+.hint-enter-active, .hint-leave-active {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease;
+}
+.hint-enter-active {
+  transition-delay: 0.2s;
+}
+.hint-enter, .hint-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.hint-enter-to, .hint-leave {
+  opacity: 1;
+  transform: translateY(0px);
+}

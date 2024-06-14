@@ -1,0 +1,128 @@
+.calc {
+  &__table {
+    display: flex;
+    font-size: 1.6rem;
+    margin-bottom: 3rem;
+    overflow: hidden;
+    max-width: 75rem;
+    @include mQ(832px) {
+      display: block;
+    }
+  }
+  &__row {
+    display: block;
+    width: 100%;
+    margin-right: 0.5rem;
+    background: #fff;
+    @include mQ(970px) {
+      max-width: 30rem;
+      margin: 0 auto;
+    }
+    @include mQ(768px) {
+      max-width: 40rem;
+    }
+  }
+  &__plus {
+    display: none;
+    @include mQ(768px) {
+      display: block;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+  }
+  &__column {
+    padding: 2rem;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    border-left: 1px solid $border-color;
+    text-align: center;
+    font-weight: 400;
+    transition: background-color 0.1s linear;
+    @include mQ(970px) {
+      padding: 1.5rem;
+    }
+    @include mQ(885px) {
+      padding: 1rem;
+    }
+    //@include mQ(768px) {
+    //  padding: 1rem;
+    //}
+    &:hover {
+      background: #f6f6f6;
+      //background: #b0ce8e;
+      cursor: pointer;
+    }
+    &--main {
+      font-weight: 500;
+      background: $question-color;
+      color: #fff;
+      cursor: default;
+      padding: 1.5rem 0.5rem;
+      &:hover {
+        background: $question-color;
+        cursor: default;
+      }
+      img {
+        width: 2rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+  .active {
+    background: $active-color;
+    color: #fff;
+  }
+  &__price {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    @include mQ(768px) {
+    justify-content: center;
+    }
+    &-number {
+      font-weight: 500;
+      border: 0.4rem solid rgb(13,79,145, 0.7);
+      border-radius: 50%;
+      width: 6rem;
+      height: 6rem;
+      margin: 0 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: aliceblue;
+      box-sizing: border-box;
+    }
+    &-top {
+      display: none;
+      @include mQ(768px) {
+        display: flex;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+  .mob-text {
+    display: none;
+    @include mQ(768px) {
+      display: block;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  }
+  .hint {
+    h3 {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.8rem;
+      img {
+        width: 2rem;
+        margin-right: 1rem;
+      }
+    }
+    p {
+      padding: 0.5rem 0;
+    }
+  }
+}

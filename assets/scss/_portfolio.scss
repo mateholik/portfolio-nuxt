@@ -1,0 +1,211 @@
+.portfolio {
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    @include mQ(768px) {
+      display: block;
+      margin-bottom: 4rem;
+    }
+  }
+  .item {
+    background-image: url("./../img/bv.jpg");
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 3px #ab9595d9;
+    display: block;
+    width: 30rem;
+    height: 16rem;
+    background-size: cover;
+    border-radius: 0.2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    &-ortakiai {
+      background-image: url("./../img/ortakiai.jpg");
+    }
+    &-palanga {
+      background-image: url("./../img/palanga.jpg");
+    }
+    &-mate {
+      background-image: url("./../img/mate.jpg");
+    }
+    &-lubos {
+      background-image: url("./../img/lubos.jpg");
+    }
+    &-betonavimas {
+      background-image: url("./../img/betonavimas.jpg");
+    }
+    &-slenis {
+      background-image: url("./../img/slenis.jpg");
+    }
+    &-terapija {
+      background-image: url("./../img/terapija.jpg");
+    }
+    &-ekodalys {
+      background-image: url("./../img/ekodalys.jpg");
+    }
+    &-london {
+      background-image: url("./../img/london.jpg");
+    }
+    &-lanersa {
+      background-image: url("./../img/lanersa.jpg");
+    }
+    &-ganja {
+      background-image: url("./../img/eco.jpg");
+    }
+    &-papuosk {
+      background-image: url("./../img/papuosk.jpg");
+    }
+    &-beauty {
+      background-image: url("./../img/beauty.jpg");
+    }
+    &-evatto {
+      background-image: url("./../img/evatto.jpg");
+    }
+    &-maxdesign {
+      background-image: url("./../img/maxdesign.jpeg");
+    }
+    &-ganfiz {
+      background-image: url("./../img/ganfiz.jpeg");
+    }
+    &-arfa {
+      background-image: url("./../img/arfa.jpeg");
+    }
+    &-sinkroteksas {
+      background-image: url("./../img/sinkroteksas.jpeg");
+    }
+    &-fasadai {
+      background-image: url("./../img/fasadai.jpeg");
+    }
+    &-pupiai {
+      background-image: url("./../img/pupiai.jpeg");
+    }
+    &-grow {
+      background-image: url("./../img/grow.jpeg");
+    }
+    &-ecoplast {
+      background-image: url("./../img/ecoplast.jpeg");
+    }
+    &-csdownload {
+      background-image: url("./../img/csdownload.jpg");
+    }
+    &-psichologe {
+      background-image: url("./../img/psichologe.jpg");
+    }
+    &-bigmix {
+      background-image: url("./../img/bigmix.jpg");
+    }
+    &-mars {
+      background-image: url("./../img/mars.jpg");
+    }
+    &-mines {
+      background-image: url("./../img/minesweeper.jpg");
+    }
+    &-longavia {
+      background-image: url("./../img/longavia.jpg");
+    }
+    &-movies {
+      background-image: url("./../img/movies.jpg");
+    }
+    &-shortener {
+      background-image: url("./../img/shortener.jpg");
+    }
+    &-snake {
+      background-image: url("./../img/snake.jpg");
+    }
+    &-todos {
+      background-image: url("./../img/todos.jpg");
+    }
+    &-calendar {
+      background-image: url("./../img/calendar.jpg");
+    }
+    &-budget {
+      background-image: url("./../img/budget.jpg");
+    }
+    &-theory {
+      background-image: url("./../img/theory.jpg");
+    }
+    &-atomaizeriai {
+      background-image: url("./../img/atomaizeriai.jpg");
+    }
+    &-nomadomas {
+      background-image: url("./../img/nomadomas.jpg");
+    }
+    &-breaking-bad {
+      background-image: url("./../img/breaking-bad.jpg");
+    }
+    &-jobs {
+      background-image: url("./../img/jobs.jpg");
+    }
+    &-users {
+      background-image: url("./../img/users.jpg");
+    }
+    @include mQ(768px) {
+      max-width: 38rem;
+      width: 100%;
+      height: 20rem;
+      margin: 0 auto;
+      margin-bottom: 3rem;
+      background-position: center;
+      box-shadow: 0 0 3px #1e4944c4;
+    }
+    &:hover {
+      .item__mask {
+        opacity: 1;
+      }
+      .item__price {
+        left: 0;
+        background: $box-price-hover;
+      }
+      .item__name {
+        right: 0;
+        background: $box-name-hover;
+      }
+    }
+    &__mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $box-bg-hover;
+      opacity: 0;
+      transition: all 0.3s;
+      @include mQ(768px) {
+        background-color: $box-bg-hover;
+        opacity: 1;
+      }
+    }
+    &__price {
+      position: absolute;
+      color: white;
+      padding: 0.5rem 1rem;
+      box-sizing: border-box;
+      top: 9rem;
+      left: -70%;
+      transition: all 0.3s;
+      width: 70%;
+      text-align: right;
+      @include mQ(768px) {
+        left: 0;
+        background: $box-price-hover;
+        top: 13rem;
+      }
+    }
+    &__name {
+      position: absolute;
+      color: white;
+      padding: 0.5rem 1rem;
+      box-sizing: border-box;
+      top: 12rem;
+      right: -70%;
+      transition: all 0.3s;
+      width: 70%;
+      @include mQ(768px) {
+        right: 0;
+        background: $box-name-hover;
+        top: 16rem;
+      }
+    }
+  }
+}

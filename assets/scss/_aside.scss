@@ -1,0 +1,218 @@
+.aside {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  overflow: hidden;
+  z-index: 2;
+  width: 25%;
+  font-size: 14px;
+  text-align: left;
+  background-color: $aside-bg-color;
+  @include mQ(768px) {
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    position: relative;
+    width: auto;
+    padding-top: 40px;
+    padding-bottom: 0;
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: -50px;
+      content: " ";
+      display: block;
+      width: auto;
+      height: 850px;
+    }
+  }
+  &__inner {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    padding: 45px 40px;
+    @include mQ(768px) {
+      overflow: initial;
+      height: auto;
+      padding: 0 40px;
+    }
+  }
+  .me {
+    text-align: center;
+    display: block;
+    color: $aside-text-color;
+    &__img {
+      max-width: 15rem;
+      margin: 0 auto;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      img {
+        border-radius: 50%;
+      }
+    }
+    &__title {
+      margin-left: -4rem;
+      margin-right: -4rem;
+      font-size: 2.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    &__subtitle {
+      margin-left: -4rem;
+      margin-right: -4rem;
+      font-size: 1.6rem;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+  }
+  .nav {
+    margin: 4.5rem -4rem;
+    line-height: 3rem;
+    position: relative;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    @include mQ(768px) {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      line-height: 5rem;
+      text-align: right;
+      margin: 2rem -4rem 0;
+    }
+    a {
+      color: unset;
+    }
+    &__ul {
+      display: block;
+      &--desktop {
+        @include mQ(768px) {
+          display: none;
+        }
+      }
+    }
+    &__open {
+      height: auto;
+    }
+    &__li {
+      position: relative;
+      padding: 0 4rem;
+      color: rgba($aside-text-color, 0.6);
+      cursor: pointer;
+      @include mQ(768px) {
+        text-align: center;
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba($aside-text-color, 0.2);
+          border-width: 1px 0;
+        }
+      }
+      &:hover {
+        transform: scale(1.01);
+        color: $aside-text-color;
+        &::after {
+          content: url("./../img/icons/arrow.svg");
+          padding-left: 0.5rem;
+          width: 7px;
+          height: 7px;
+          display: inline-block;
+        }
+      }
+    }
+    &__mobile {
+      font-size: 1.8rem;
+      border: 1px solid rgba($aside-text-color, 0.2);
+      border-width: 1px 0;
+      padding: 0 2rem;
+      display: none;
+      @include mQ(768px) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &-btn {
+        width: 2rem;
+        display: block;
+      }
+    }
+  }
+  .router-link-active {
+    transform: scale(1.01);
+    color: $aside-text-color;
+    &::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 0.9rem solid transparent;
+      border-bottom: 0.9rem solid transparent;
+      border-right: 0.8rem solid $bg-color;
+      bottom: 0.6rem;
+      left: auto;
+      right: 0;
+      @include mQ(768px) {
+        display: none;
+      }
+    }
+  }
+  .socials {
+    @include mQ(768px) {
+      display: none;
+    }
+    &--mobile {
+      display: none;
+      @include mQ(768px) {
+        display: block;
+      }
+    }
+    &__ul {
+      @include mQ(768px) {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+    }
+    &__li {
+      display: block;
+      transition: all 0.1s ease-in-out;
+      margin-bottom: 1rem;
+      @include mQ(768px) {
+        margin-bottom: 0;
+      }
+      &--mobile {
+        display: inline-block;
+        span {
+          display: none;
+        }
+      }
+      &:hover {
+        transform: scale(1.01);
+        a {
+          color: $aside-text-color;
+        }
+        svg,
+        path,
+        img {
+          fill: $aside-text-color;
+        }
+      }
+    }
+    &__link {
+      color: rgba($aside-text-color, 0.6);
+      display: flex;
+      align-items: center;
+      svg,
+      path,
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 1rem;
+        fill: hsla(0, 0%, 100%, 0.6);
+      }
+    }
+  }
+}

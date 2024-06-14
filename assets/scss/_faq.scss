@@ -1,0 +1,50 @@
+.faq {
+  &__header {
+    margin-bottom:2rem;
+  }
+  &__inner {
+    background: #fff;
+    border-radius: 0.5rem;
+    border-left: 1px solid #d8d8d8;
+    border-right: 1px solid #d8d8d8;
+    margin-bottom: 5rem;
+  }
+  .item {
+    border-top: 1px solid #d8d8d8;
+    &:last-child {
+      border-bottom: 1px solid #d8d8d8;
+    }
+    &__header {
+      padding: .5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition:background-color .1s linear;
+      margin-bottom: 0;
+      &:hover {
+        background: #f5e4d8c2;
+      }
+      &-rot {
+        margin-right: 0;
+      }
+     img {
+       position: static;
+       transition: all .3s;
+     }
+    }
+    &__content {
+      margin: 2rem 1rem;
+      padding: 1rem;
+      background: #d9e8f761;
+      animation-duration: 0.2s;
+      animation-delay: 0.2s;
+    }
+    .rotate {
+      transform: rotate(180deg);
+    }
+    .open {
+      background: #f5e4d8;
+    }
+  }
+}

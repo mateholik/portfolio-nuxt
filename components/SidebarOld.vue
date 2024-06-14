@@ -1,5 +1,22 @@
 <script setup lang="ts">
 const { toggleDarkMode, isDark } = useDarkMode();
+const socials = [
+  {
+    title: "Facebook",
+    image: "/img/icons/facebook.svg",
+    link: "https://www.facebook.com/vladis.vaisov",
+  },
+  {
+    title: "Facebook",
+    image: "/img/icons/facebook.svg",
+    link: "https://www.facebook.com/vladis.vaisov",
+  },
+  {
+    title: "Facebook",
+    image: "/img/icons/facebook.svg",
+    link: "https://www.facebook.com/vladis.vaisov",
+  },
+];
 </script>
 <template>
   <button

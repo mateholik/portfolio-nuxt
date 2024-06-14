@@ -1,8 +1,9 @@
 <template>
   <div class="flex dark:bg-gray-800 min-h-screen">
-    <Sidebar></Sidebar>
+    <!-- <Sidebar></Sidebar>Old -->
+    <Aside />
     <div class="ml-64 p-8">
-      <slot />
+      <!-- <slot /> -->
     </div>
   </div>
 </template>
