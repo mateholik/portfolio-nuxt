@@ -10,10 +10,17 @@ const content = data.value?.data.attributes;
 </script>
 
 <template>
-  <div v-for="block in content?.services" :key="block.id" class="mb-12">
-    <h2 class="text-3xl mb-8">{{ block.title }}</h2>
-    <div class="service-ul" v-html="md.render(block.text)"></div>
-  </div>
+  <section class="paslaugos">
+    <div v-for="block in content?.services" :key="block.id" class="mb-12">
+      <h1 class="paslaugos__title">
+        <img src="/img/icons/www.svg" />{{ block.title }}
+      </h1>
+      <div class="paslaugos__content">
+        <!-- <img src="/img/icons/check.svg" /> -->
+        <div v-html="md.render(block.text)"></div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style>

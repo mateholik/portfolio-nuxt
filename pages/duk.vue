@@ -6,29 +6,59 @@ const { data, pending, error, refresh } = await useAsyncData(
 );
 const content = data.value?.data.attributes;
 const faqs = ref(content?.faqs.data);
+
+faqs.value[0].open = true;
+
+const toggle = (item, event) => {
+  item.open = !item.open;
+  setTimeout(() => {
+    event.target.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, 250);
+};
 </script>
 
 <template>
-  <h1 class="text-4xl mb-8 text-gray-900 dark:text-white">
-    {{ content?.pageTitle }}
-  </h1>
-  <p>{{ content?.pageDescription }}</p>
-  <h2 class="text-3xl mb-8">{{ content?.faqTitle }}</h2>
-
-  <div
-    id="accordion-color"
-    data-accordion="collapse"
-    class="dark:bg-gray-800 text-blue-600 dark:text-white border-b border-gray-200 dark:border-gray-700"
-  >
-    <ExpandableBlock
-      v-for="(item, index) in faqs"
-      :key="item.id"
-      :head="item.attributes.question"
-      :body="item.attributes.answer"
-      :isVisible="index === 0"
-      :index="index"
-      :isFirst="index === 0"
-      :isLast="index === faqs.length - 1"
-    />
-  </div>
+  <section>
+    <div class="faq">
+      <div class="faq__header">
+        <h1>{{ content?.pageTitle }}</h1>
+        <p>
+          {{ content?.pageDescription }}
+        </p>
+      </div>
+      <h2><img src="/img/icons/question.svg" />{{ content?.faqTitle }}</h2>
+      <div class="faq__inner">
+        <div class="item" v-for="(item, i) in faqs" :key="i">
+          <h2
+            @click="toggle(item, $event)"
+            :class="{ open: item.open }"
+            class="item__header"
+          >
+            <span>
+              <img :src="`/img/icons/${item.attributes.iconName}.svg`" />
+              {{ item.attributes.question }}
+            </span>
+            <img
+              :class="{ rotate: item.open }"
+              class="item__header-rot"
+              src="/img/icons/arrow2.svg"
+            />
+          </h2>
+          <transition
+            name="faq-animation"
+            enter-active-class="animated fadeInLeft"
+            leave-active-class="animated fadeOutLeft"
+          >
+            <p
+              v-if="item.open"
+              v-html="item.attributes.answer"
+              class="item__content"
+            ></p>
+          </transition>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>

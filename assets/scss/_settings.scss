@@ -1,13 +1,13 @@
 //global
 $bg-color: #f6f6f6;
-$header-color : #4a4f54;
-$sub-header-color : #4a4f54;
+$header-color: #4a4f54;
+$sub-header-color: #4a4f54;
 $text-color: #4a4f54;
-$icon-color : #4a4f54;
-$link-color : #d77513;
-$header-size : 3.6rem;
-$sub-header-size : 2rem;
-$header-weight : 400;
+$icon-color: #4a4f54;
+$link-color: #d77513;
+$header-size: 3.6rem;
+$sub-header-size: 2rem;
+$header-weight: 400;
 //aside
 $aside-bg-color: rgba(13, 79, 145, 0.8);
 $aside-text-color: #fff;
@@ -17,7 +17,7 @@ $aside-text-color: #fff;
 $box-shadow: #e4dfdf;
 $box-hover: #e4dfdf75;
 
-$box-bg-hover:  rgba(13, 79, 145, 0.3);
+$box-bg-hover: rgba(13, 79, 145, 0.3);
 $box-price-hover: #d77513;
 $box-name-hover: #914f0d;
 
@@ -27,16 +27,16 @@ $border-color: #e4dfdf;
 $question-color: rgba(13, 79, 145, 0.8);
 
 //mixins
-@mixin mQ ($args) {
+@mixin mQ($args) {
   @media screen and (max-width: $args) {
     @content;
   }
 }
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 html {
   font-size: 62.5%; /* Now 10px = 1rem! */
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 body {
   font-size: 16px; /* px fallback */
@@ -108,7 +108,7 @@ h2 {
   }
 }
 .medium {
-  font-weight: 500
+  font-weight: 500;
 }
 
 .container {
@@ -129,7 +129,7 @@ h2 {
     content: " ";
     display: block;
     width: 25%;
-    background: url(./../../assets/img/bg1.jpg) top center no-repeat $bg-color;
+    background: url(/img/bg1.jpg) top center no-repeat $bg-color;
     background-size: cover;
   }
   @include mQ(768px) {

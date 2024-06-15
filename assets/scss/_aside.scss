@@ -139,7 +139,7 @@
       }
     }
   }
-  .router-link-active {
+  li .router-link-active {
     transform: scale(1.01);
     color: $aside-text-color;
     &::before {

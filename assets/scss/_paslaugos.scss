@@ -1,5 +1,25 @@
 .paslaugos {
-  &__subtitle {
+  div {
+    margin-bottom: 3rem;
+  }
+  &__content {
+    li {
+      position: relative;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #4a4f54;
+      margin-bottom: 1rem;
+      padding-left: 3rem;
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1.6rem;
+        height: 1.6rem;
+        margin-right: 1rem;
+        content: url("./../img/icons/check.svg");
+      }
+    }
     @include mQ(768px) {
       font-size: 1.8rem;
     }
