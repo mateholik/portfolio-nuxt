@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { PageAttributes } from "~/types/strapiFaqPage";
-import NumberAnimation from "vue-number-animation";
+// import NumberAnimation from "vue-number-animation";
+import type { PageAttributes, Option } from "~/types/strapiPricePage";
+import { useCalculator } from "~/composables/useCalculator";
+
 const { data, pending, error, refresh } = await useAsyncData("price-page", () =>
   useStrapi().findOne<PageAttributes>("price-page", {
     populate: {
@@ -13,44 +15,12 @@ const { data, pending, error, refresh } = await useAsyncData("price-page", () =>
 
 const content = ref(data.value?.data.attributes);
 
-const hint = ref("");
-const hintLabel = ref("Pasirinkto punkto paaiškinimas");
-const totalPrice = ref(0);
+const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
+  useCalculator(content?.value?.calculator || []);
 
-const recalculateTotal = () => {
-  let total = 0;
-  const options = content.value.calculator.flatMap((block) => block.option);
-
-  options.forEach((option) => {
-    if (option.active) total += option.price;
-  });
-  totalPrice.value = total;
-};
-const selectOptionInBlock = (option, blockIndex) => {
-  content.value.calculator[blockIndex].option.forEach((option) => {
-    option.active = false;
-  });
-
-  option.active = true;
-  recalculateTotal();
-
-  hintLabel.value =
-    content.value.calculator[blockIndex].blockTitle + " -> " + option.title;
-  hint.value = option.description;
-};
 onMounted(() => {
-  showSteps();
+  initCalc();
 });
-const showSteps = () => {
-  let timer = 500;
-  for (let i = 0; i < content.value.calculator.length; i++) {
-    setTimeout(() => {
-      content.value.calculator[i].option[i % 2 === 0 ? 0 : 1].active = true;
-      recalculateTotal();
-    }, timer);
-    timer += 500;
-  }
-};
 </script>
 
 <template>
@@ -78,7 +48,7 @@ const showSteps = () => {
       </div>
 
       <div class="calc__table" ref="answers">
-        <div v-for="(column, i) in content.calculator" :key="i" style="flex: 1">
+        <div v-for="(column, i) in calcBlocks" :key="i" style="flex: 1">
           <div class="calc__row">
             <div class="calc__column calc__column--main">
               {{ column.blockTitle }}
@@ -118,9 +88,9 @@ const showSteps = () => {
       </div>
       <br />
       <transition name="hint">
-        <div class="hint" v-if="hintLabel.length > 0" :key="hint">
-          <h3><img src="/img/icons/question.svg" />{{ hintLabel }}</h3>
-          <p>{{ hint }}</p>
+        <div class="hint" v-if="hintObj.description">
+          <h3><img src="/img/icons/question.svg" />{{ hintObj.title }}</h3>
+          <p>{{ hintObj.description }}</p>
         </div>
       </transition>
     </div>
