@@ -103,6 +103,7 @@
       padding: 0 4rem;
       color: rgba($aside-text-color, 0.6);
       cursor: pointer;
+
       @include mQ(768px) {
         text-align: center;
         &:not(:last-child) {

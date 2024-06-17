@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@nuxtjs/strapi": "^1.12.0",
+    "animated-number-vue": "^1.0.0",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.11.2",
     "nuxt-icons": "^3.2.1",
     "qs": "^6.12.1",
     "vue": "^3.4.27",
+    "vue-number-animation": "^2.0.2",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {

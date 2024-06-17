@@ -1,11 +1,11 @@
-@import 'reset';
-@import 'animations';
-@import 'settings';
-@import 'aside';
-@import 'portfolio';
-@import 'faq';
-@import 'calc';
-@import 'paslaugos';
+@import "reset";
+@import "animations";
+@import "settings";
+@import "aside";
+@import "portfolio";
+@import "faq";
+@import "calc";
+@import "paslaugos";
 
 .footer {
   position: absolute;
@@ -34,21 +34,23 @@
   }
 }
 
-.router-animation-enter-active, .router-animation-leave-active {
+.router-animation-enter-active,
+.router-animation-leave-active {
   transition: opacity 0.3s ease-in-out, transform 0.3s ease;
 }
 .router-animation-enter-active {
   transition-delay: 0.3s;
 }
-.router-animation-enter, .router-animation-leave-to {
+.router-animation-enter,
+.router-animation-leave-to {
   opacity: 0;
   transform: translateY(-100px);
 }
-.router-animation-enter-to, .router-animation-leave {
+.router-animation-enter-to,
+.router-animation-leave {
   opacity: 1;
   transform: translateY(0px);
 }
-
 
 .slide-menu-enter-active {
   -moz-transition-duration: 0.3s;
@@ -72,28 +74,32 @@
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
 
-.slide-menu-enter-to, .slide-menu-leave {
+.slide-menu-enter-to,
+.slide-menu-leave-from {
   max-height: 33rem;
   overflow: hidden;
 }
 
-.slide-menu-enter, .slide-menu-leave-to {
+.slide-menu-enter-from,
+.slide-menu-leave-to {
   overflow: hidden;
   max-height: 0;
 }
 
-
-.hint-enter-active, .hint-leave-active {
+.hint-enter-active,
+.hint-leave-active {
   transition: opacity 0.2s ease-in-out, transform 0.2s ease;
 }
 .hint-enter-active {
   transition-delay: 0.2s;
 }
-.hint-enter, .hint-leave-to {
+.hint-enter-from,
+.hint-leave-to {
   opacity: 0;
   transform: translateY(-20px);
 }
-.hint-enter-to, .hint-leave {
+.hint-enter-to,
+.hint-leave-from {
   opacity: 1;
   transform: translateY(0px);
 }
