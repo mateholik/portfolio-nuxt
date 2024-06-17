@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@nuxtjs/strapi": "^1.12.0",
-    "animated-number-vue": "^1.0.0",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.11.2",
     "nuxt-icons": "^3.2.1",

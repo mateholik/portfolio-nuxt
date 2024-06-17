@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import NumberAnimation from "vue-number-animation";
+import NumberAnimation from "vue-number-animation";
 import type { PageAttributes, Option } from "~/types/strapiPricePage";
 import { useCalculator } from "~/composables/useCalculator";
 
@@ -21,6 +21,9 @@ const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
 onMounted(() => {
   initCalc();
 });
+const theFormat = (value: number) => {
+  return value.toFixed();
+};
 </script>
 
 <template>
@@ -33,11 +36,16 @@ onMounted(() => {
       <div class="calc__price calc__price-top">
         Apytikslė kaina
         <span class="calc__price-number">
-          <!-- <animated-number
-            :value="totalPrice"
-            :duration="300"
-            :formatValue="formatToPrice"
-          /> -->
+          <ClientOnly>
+            <NumberAnimation
+              :from="0"
+              :to="totalPrice"
+              :format="theFormat"
+              :duration="0.3"
+              autoplay
+              easing="linear"
+            />
+          </ClientOnly>
         </span>
         eu.
       </div>
@@ -69,20 +77,16 @@ onMounted(() => {
       <div class="calc__price">
         Apytikslė kaina
         <span class="calc__price-number">
-          {{ totalPrice }}
-          <!-- <AnimatedNumber
-            :value="totalPrice"
-            :duration="300"
-            :formatValue="formatToPrice"
-          /> -->
-          <!-- <NumberAnimation
-            ref="number1"
-            :from="100"
-            :to="10000"
-            :duration="300"
-            autoplay
-            easing="linear"
-          /> -->
+          <ClientOnly>
+            <NumberAnimation
+              :from="0"
+              :to="totalPrice"
+              :format="theFormat"
+              :duration="0.3"
+              autoplay
+              easing="linear"
+            />
+          </ClientOnly>
         </span>
         eu.
       </div>
