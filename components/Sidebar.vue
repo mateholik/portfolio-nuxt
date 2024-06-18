@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 const mobileNav = ref(false);
 const nav = [
   {
@@ -44,6 +45,13 @@ const socials = [
     link: "https://github.com/mateholik",
   },
 ];
+const router = useRouter();
+watch(
+  () => router.currentRoute.value,
+  () => {
+    mobileNav.value = false; // Close the sidebar on route change
+  }
+);
 </script>
 <template>
   <aside>
