@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import type { PageAttributes } from "~/types/strapiFaqPage";
+import ExpandableBlock from "~/components/ExpandableBlock.vue";
+import type { PageAttributes } from "~/types/strapiDukPage";
 const { data, pending, error, refresh } = await useAsyncData(
   "javascript-page",
   () => useStrapi().findOne<PageAttributes>("faq-page", { populate: "*" })
 );
 const content = data.value?.data.attributes;
-const faqs = ref(content?.faqs.data);
-
-faqs.value[0].open = true;
-
-const toggle = (item, event) => {
-  item.open = !item.open;
-  setTimeout(() => {
-    event.target.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, 250);
-};
+const faqs = content?.faqs.data || [];
 </script>
 
 <template>
@@ -30,34 +20,14 @@ const toggle = (item, event) => {
       </div>
       <h2><img src="/img/icons/question.svg" />{{ content?.faqTitle }}</h2>
       <div class="faq__inner">
-        <div class="item" v-for="(item, i) in faqs" :key="i">
-          <h2
-            @click="toggle(item, $event)"
-            :class="{ open: item.open }"
-            class="item__header"
-          >
-            <span>
-              <img :src="`/img/icons/${item.attributes.iconName}.svg`" />
-              {{ item.attributes.question }}
-            </span>
-            <img
-              :class="{ rotate: item.open }"
-              class="item__header-rot"
-              src="/img/icons/arrow2.svg"
-            />
-          </h2>
-          <transition
-            name="faq-animation"
-            enter-active-class="animated fadeInLeft"
-            leave-active-class="animated fadeOutLeft"
-          >
-            <p
-              v-if="item.open"
-              v-html="item.attributes.answer"
-              class="item__content"
-            ></p>
-          </transition>
-        </div>
+        <ExpandableBlock
+          v-for="(item, index) in faqs"
+          :isOpen="index === 0"
+          :key="item.attributes.question"
+          :iconName="item.attributes.iconName"
+          :question="item.attributes.question"
+          :answer="item.attributes.answer"
+        />
       </div>
     </div>
   </section>

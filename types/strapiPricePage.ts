@@ -18,5 +18,6 @@ export interface PageAttributes {
   updatedAt: string;
   publishedAt: string;
   totalPriceText: string;
+  mobText: string;
   calculator: Blocks[];
 }

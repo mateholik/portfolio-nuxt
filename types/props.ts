@@ -6,10 +6,8 @@ export type cardProps = {
 };
 
 export interface expandableBlockProps {
-  head: string;
-  body: string;
-  isVisible: boolean;
-  index: number;
-  isFirst: boolean;
-  isLast: boolean;
+  isOpen: boolean;
+  iconName: string;
+  question: string;
+  answer: string;
 }

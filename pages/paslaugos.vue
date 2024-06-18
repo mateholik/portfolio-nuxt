@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageAttributes } from "~/types/strapiFaqPage";
+import type { PageAttributes } from "~/types/strapiServicesPage";
 import markdownIt from "markdown-it";
 const { data, pending, error, refresh } = await useAsyncData(
   "javascript-page",
@@ -16,7 +16,6 @@ const content = data.value?.data.attributes;
         <img src="/img/icons/www.svg" />{{ block.title }}
       </h1>
       <div class="paslaugos__content">
-        <!-- <img src="/img/icons/check.svg" /> -->
         <div v-html="md.render(block.text)"></div>
       </div>
     </div>

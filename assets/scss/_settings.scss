@@ -118,7 +118,7 @@ h2 {
   padding-top: 4.5rem;
   box-sizing: border-box;
   @include mQ(768px) {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
   &::before {
     position: fixed;

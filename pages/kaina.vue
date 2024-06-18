@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import NumberAnimation from "vue-number-animation";
-import type { PageAttributes, Option } from "~/types/strapiPricePage";
+import type { PageAttributes } from "~/types/strapiPricePage";
 import { useCalculator } from "~/composables/useCalculator";
+import markdownIt from "markdown-it";
 
 const { data, pending, error, refresh } = await useAsyncData("price-page", () =>
   useStrapi().findOne<PageAttributes>("price-page", {
@@ -17,13 +18,15 @@ const content = ref(data.value?.data.attributes);
 
 const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
   useCalculator(content?.value?.calculator || []);
-
+  const theFormat = (value: number) => {
+  return value.toFixed();
+};
+const md = markdownIt();
+const totalPriceText = content?.value?.totalPriceText.split('<>')
 onMounted(() => {
   initCalc();
 });
-const theFormat = (value: number) => {
-  return value.toFixed();
-};
+
 </script>
 
 <template>
@@ -31,10 +34,10 @@ const theFormat = (value: number) => {
     <div class="calc">
       <h1>
         <img src="/img/icons/euro.svg" />
-        Kainos skaičiuoklė
+        {{ content?.pageTitle }}
       </h1>
       <div class="calc__price calc__price-top">
-        Apytikslė kaina
+        {{ totalPriceText?.[0] }}
         <span class="calc__price-number">
           <ClientOnly>
             <NumberAnimation
@@ -47,12 +50,10 @@ const theFormat = (value: number) => {
             />
           </ClientOnly>
         </span>
-        eu.
+        {{ totalPriceText?.[1] }}
       </div>
 
-      <div class="mob-text">
-        Trumpą kiekvieno punkto paaiškinimą rasite
-        <strong>po</strong> skaičiuokle
+      <div v-html="md.render(content?.mobText)" class="mob-text">
       </div>
 
       <div class="calc__table" ref="answers">
@@ -75,7 +76,7 @@ const theFormat = (value: number) => {
         </div>
       </div>
       <div class="calc__price">
-        Apytikslė kaina
+        {{ totalPriceText?.[0] }}
         <span class="calc__price-number">
           <ClientOnly>
             <NumberAnimation
@@ -88,7 +89,7 @@ const theFormat = (value: number) => {
             />
           </ClientOnly>
         </span>
-        eu.
+        {{ totalPriceText?.[1] }}
       </div>
       <br />
       <transition name="hint">
