@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@inotom/vue-go-top": "^2.0.0",
     "@nuxtjs/strapi": "^1.12.0",
     "markdown-it": "^14.1.0",
     "nuxt": "^3.11.2",
