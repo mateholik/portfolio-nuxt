@@ -1,12 +1,36 @@
 <script setup lang="ts">
 import type { PageAttributes } from "~/types/strapiPortfolioPage";
+import type { Seo } from "~/types/strapiSeo";
+import { useSeoMetaCustom } from "~/composables/useSeoMetaCustom";
 const config = useRuntimeConfig();
+const { seoQueryParamsObj } = useSeoMetaCustom();
 
 const { data, pending, error, refresh } = await useAsyncData(
   "javascript-page",
-  () => useStrapi().findOne<PageAttributes>("javascript-page")
+  () =>
+    useStrapi().findOne<PageAttributes>("javascript-page", {
+      populate: {
+        seo: seoQueryParamsObj,
+        websites: {
+          populate: {
+            card: {
+              populate: {
+                category: {
+                  populate: true,
+                },
+                image: {
+                  fields: ["name", "url"],
+                },
+              },
+            },
+          },
+        },
+      },
+    })
 );
-const content = data.value?.data.attributes;
+const content = ref(data.value?.data.attributes);
+const { metaTagsObj } = useSeoMetaCustom(content?.value?.seo);
+useSeoMeta(metaTagsObj);
 </script>
 
 <template>

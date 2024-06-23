@@ -49,7 +49,7 @@ const router = useRouter();
 watch(
   () => router.currentRoute.value,
   () => {
-    mobileNav.value = false; // Close the sidebar on route change
+    mobileNav.value = false;
   }
 );
 </script>

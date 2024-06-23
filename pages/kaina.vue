@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import NumberAnimation from "vue-number-animation";
 import type { PageAttributes } from "~/types/strapiPricePage";
+import type { Seo } from "~/types/strapiSeo";
 import { useCalculator } from "~/composables/useCalculator";
+import { useSeoMetaCustom } from "~/composables/useSeoMetaCustom";
 import markdownIt from "markdown-it";
 
+const {seoQueryParamsObj} = useSeoMetaCustom()
+
 const { data, pending, error, refresh } = await useAsyncData("price-page", () =>
-  useStrapi().findOne<PageAttributes>("price-page", {
+  useStrapi().findOne<PageAttributes & Seo>("price-page", {
     populate: {
+      seo: seoQueryParamsObj,
       calculator: {
         populate: "*",
       },
     },
   })
 );
-
 const content = ref(data.value?.data.attributes);
+const {metaTagsObj} = useSeoMetaCustom(content?.value?.seo)
 
 const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
   useCalculator(content?.value?.calculator || []);
@@ -26,6 +31,8 @@ const totalPriceText = content?.value?.totalPriceText.split('<>')
 onMounted(() => {
   initCalc();
 });
+
+useSeoMeta(metaTagsObj)
 
 </script>
 
