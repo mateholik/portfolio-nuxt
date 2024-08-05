@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import type { SidebarAttributes } from "~/types/strapiSidebar";
+import { useGetImage } from "~/composables/useGetImage";
 
 const { data, pending, error, refresh } = await useAsyncData("sidebar", () =>
   useStrapi().findOne<SidebarAttributes>("sidebar", {
@@ -13,7 +14,6 @@ const { data, pending, error, refresh } = await useAsyncData("sidebar", () =>
     },
   })
 );
-const config = useRuntimeConfig();
 
 const content = ref(data.value?.data.attributes);
 
@@ -35,9 +35,7 @@ watch(
         <NuxtLink to="/" class="me">
           <div class="me__img">
             <img
-              :src="
-                config.public.strapiApiUrl + content?.image.data.attributes.url
-              "
+              :src="useGetImage(content?.image.data.attributes.url || '')"
               alt="profile image"
             />
           </div>

@@ -2,13 +2,14 @@
 import type { PageAttributes } from "~/types/strapiPortfolioPage";
 import type { Seo } from "~/types/strapiSeo";
 import { useSeoMetaCustom } from "~/composables/useSeoMetaCustom";
-const config = useRuntimeConfig();
+import { useGetImage } from "~/composables/useGetImage";
+
 const { seoQueryParamsObj } = useSeoMetaCustom();
 
 const { data, pending, error, refresh } = await useAsyncData(
   "javascript-page",
   () =>
-    useStrapi().findOne<PageAttributes>("javascript-page", {
+    useStrapi().findOne<PageAttributes & Seo>("javascript-page", {
       populate: {
         seo: seoQueryParamsObj,
         websites: {
@@ -48,7 +49,7 @@ useSeoMeta(metaTagsObj);
           :key="card.id"
           :title="card.title"
           :subTitle="card.subTitle"
-          :image="config.public.strapiApiUrl + card.image.data.attributes.url"
+          :image="useGetImage(card.image.data.attributes.url)"
           :url="card.url"
         />
       </div>

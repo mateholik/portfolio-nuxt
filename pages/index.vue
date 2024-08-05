@@ -2,8 +2,8 @@
 import type { PageAttributes } from "~/types/strapiPortfolioPage";
 import type { Seo } from "~/types/strapiSeo";
 import { useSeoMetaCustom } from "~/composables/useSeoMetaCustom";
+import { useGetImage } from "~/composables/useGetImage";
 
-const config = useRuntimeConfig();
 const { seoQueryParamsObj } = useSeoMetaCustom();
 
 const { data, pending, error, refresh } = await useAsyncData(
@@ -50,7 +50,7 @@ useSeoMeta(metaTagsObj);
           :key="card.id"
           :title="card.title"
           :subTitle="card.subTitle"
-          :image="config.public.strapiApiUrl + card.image.data.attributes.url"
+          :image="useGetImage(card.image.data.attributes.url)"
           :url="card.url"
         />
       </div>

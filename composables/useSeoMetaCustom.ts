@@ -1,8 +1,7 @@
 import type { SeoAttributes } from "~/types/strapiSeo";
+import { useGetImage } from "~/composables/useGetImage";
 
 export const useSeoMetaCustom = (seoContent?: SeoAttributes) => {
-  const config = useRuntimeConfig();
-
   const seoQueryParamsObj = {
     populate: {
       metaImage: {
@@ -19,13 +18,13 @@ export const useSeoMetaCustom = (seoContent?: SeoAttributes) => {
   };
 
   const metaTagsObj = {
-    title: seoContent?.metaTitle,
-    description: seoContent?.metaDescription,
-    ogTitle: seoContent?.metaSocial[0].title,
-    ogDescription: seoContent?.metaSocial[0].description,
-    ogImage:
-      config.public.strapiApiUrl +
-      seoContent?.metaSocial[0].image.data.attributes.url,
+    title: seoContent?.metaTitle || "nera",
+    description: seoContent?.metaDescription || "nera",
+    ogTitle: seoContent?.metaSocial?.[0]?.title || "nera",
+    ogDescription: seoContent?.metaSocial?.[0]?.description || "nera",
+    ogImage: useGetImage(
+      seoContent?.metaSocial?.[0]?.image?.data?.attributes?.url || ""
+    ),
   };
 
   return {
