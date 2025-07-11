@@ -24,7 +24,7 @@
       bottom: 0;
       left: 0;
       right: -50px;
-      content: " ";
+      content: ' ';
       display: block;
       width: auto;
       height: 850px;
@@ -85,7 +85,7 @@
       margin: 2rem -4rem 0;
     }
     a {
-      color: unset;
+      color: white;
     }
     &__ul {
       display: block;
@@ -113,7 +113,7 @@
           transform: scale(1.01);
           color: $aside-text-color;
           &::after {
-            content: url("./../img/icons/arrow.svg");
+            content: url('./../img/icons/arrow.svg');
             padding-left: 0.5rem;
             width: 7px;
             height: 7px;
@@ -149,7 +149,7 @@
     transform: scale(1.01);
     color: $aside-text-color;
     &::before {
-      content: " ";
+      content: ' ';
       display: block;
       position: absolute;
       width: 0;

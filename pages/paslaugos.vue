@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { PageAttributes } from '~/types/strapiServicesPage';
 import markdownIt from 'markdown-it';
 
 // Simplified data fetching - controllers handle population
 const { data, pending, error, refresh } = await useAsyncData(
   'services-page',
-  () => useStrapi().findOne<PageAttributes>('services-page')
+  () => useStrapi().findOne('services-page')
 );
 
 const md = markdownIt();
-const content = computed(() => data.value?.data.attributes);
+// Fix: The API returns { data: { ...attributes }, meta: {} }
+const content = computed(() => (data.value as any)?.data);
 </script>
 
 <template>
@@ -21,6 +21,10 @@ const content = computed(() => data.value?.data.attributes);
     </div>
 
     <div v-else-if="content">
+      <h1 v-if="content.pageTitle" class="paslaugos__main-title">
+        {{ content.pageTitle }}
+      </h1>
+
       <div v-for="block in content.services" :key="block.id" class="mb-12">
         <h1 class="paslaugos__title">
           <img src="/img/icons/www.svg" />{{ block.title }}
@@ -30,11 +34,21 @@ const content = computed(() => data.value?.data.attributes);
         </div>
       </div>
     </div>
+
+    <div v-else>
+      <h2>No services found</h2>
+    </div>
   </section>
 </template>
 
 <style>
 .service-ul ul {
   @apply list-disc pl-8;
+}
+
+.paslaugos__main-title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
 </style>
