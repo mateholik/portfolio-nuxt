@@ -29,14 +29,14 @@ const content = computed(() => (data.value as any)?.data);
         <img src="/img/icons/portfolio.svg" />{{ content.title }}
       </h1>
 
-      <div v-for="block in content.websites" :key="block.id">
+      <div v-if="content.websites">
         <h2 class="portfolio__subtitle">
-          <img src="/img/icons/check.svg" />{{ block.title }}
+          <img src="/img/icons/check.svg" />{{ content.websites.title }}
         </h2>
 
         <div class="portfolio__inner">
           <Card
-            v-for="card in block.card"
+            v-for="card in content.websites.card"
             :key="card.id"
             :title="card.title"
             :subTitle="card.subTitle"

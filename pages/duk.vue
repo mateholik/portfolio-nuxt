@@ -5,10 +5,11 @@ import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 
 // Simplified data fetching - controllers handle population
 const { data, pending, error, refresh } = await useAsyncData('faq-page', () =>
-  useStrapi().findOne<FaqPageWithSeo>('faq-page')
+  useStrapi().findOne('faq-page')
 );
 
-const content = computed(() => data.value?.data.attributes);
+// Fix: The API returns { data: { ...attributes }, meta: {} }
+const content = computed(() => (data.value as any)?.data);
 const faqs = computed(() => content.value?.faqs || []);
 
 // SEO handling
@@ -37,9 +38,9 @@ useSeoMeta(metaTagsObj);
           v-for="(item, index) in faqs"
           :key="item.id"
           :isOpen="index === 0"
-          :iconName="item.attributes.iconName"
-          :question="item.attributes.question"
-          :answer="item.attributes.answer"
+          :iconName="'question'"
+          :question="item.question"
+          :answer="item.answer"
         />
       </div>
     </div>

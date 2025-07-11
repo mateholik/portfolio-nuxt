@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import NumberAnimation from 'vue-number-animation';
-import type { PageAttributes } from '~/types/strapiPricePage';
 import { useCalculator } from '~/composables/useCalculator';
 import markdownIt from 'markdown-it';
 
 // Simplified data fetching - controllers handle population
 const { data, pending, error, refresh } = await useAsyncData('price-page', () =>
-  useStrapi().findOne<PageAttributes>('price-page')
+  useStrapi().findOne('price-page')
 );
 
-const content = computed(() => data.value?.data.attributes);
+// Fix: The API returns { data: { ...attributes }, meta: {} }
+const content = computed(() => (data.value as any)?.data);
 
 const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
   useCalculator(content.value?.calculator || []);
@@ -20,7 +20,7 @@ const theFormat = (value: number) => {
 
 const md = markdownIt();
 const totalPriceText = computed(
-  () => content.value?.totalPriceText.split('<>') || []
+  () => content.value?.totalPriceText?.split('<>') || ['Total: ', ' EUR']
 );
 
 onMounted(() => {
@@ -29,54 +29,83 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="calc">
+  <section>
     <div v-if="pending" class="loading">Loading price calculator...</div>
 
     <div v-else-if="error" class="error">
       Failed to load price calculator. Please try again.
     </div>
 
-    <div v-else-if="content">
-      <!-- Calculator content here -->
-      <div class="calc__blocks">
-        <div
-          v-for="(block, blockIndex) in calcBlocks"
-          :key="block.id"
-          class="calc__block"
-        >
-          <h3>{{ block.blockTitle }}</h3>
-          <div class="calc__options">
+    <div v-else-if="content" class="calc">
+      <h1>
+        <img src="/img/icons/euro.svg" />
+        {{ content.pageTitle }}
+      </h1>
+      <div class="calc__price calc__price-top">
+        {{ totalPriceText[0] }}
+        <span class="calc__price-number">
+          <ClientOnly>
+            <NumberAnimation
+              :from="0"
+              :to="totalPrice"
+              :format="theFormat"
+              :duration="0.3"
+              autoplay
+              easing="linear"
+            />
+          </ClientOnly>
+        </span>
+        {{ totalPriceText[1] }}
+      </div>
+
+      <div
+        v-if="content.mobText"
+        v-html="md.render(content.mobText)"
+        class="mob-text"
+      ></div>
+
+      <div class="calc__table" ref="answers">
+        <div v-for="(column, i) in calcBlocks" :key="i" style="flex: 1">
+          <div class="calc__row">
+            <div class="calc__column calc__column--main">
+              {{ column.blockTitle }}
+            </div>
             <div
-              v-for="option in block.option"
-              :key="option.id"
-              class="calc__option"
-              :class="{ 'calc__option--active': option.active }"
-              @click="selectOptionInBlock(option, blockIndex)"
+              v-for="(item, index) in column.option"
+              @click="selectOptionInBlock(item, i)"
+              class="calc__column"
+              :key="index"
+              :class="{ active: item.active }"
             >
-              <span>{{ option.title }}</span>
-              <span>{{ option.price }}€</span>
+              {{ item.title || 'Option' }}
             </div>
           </div>
+          <div v-if="i !== 3" class="calc__plus">+</div>
         </div>
       </div>
-
-      <div class="calc__total">
-        <span>{{ totalPriceText[0] }}</span>
-        <NumberAnimation
-          :from="0"
-          :to="totalPrice"
-          :format="theFormat"
-          :duration="1000"
-          autoplay
-          easing="easeOutQuad"
-        />
-        <span>{{ totalPriceText[1] }}</span>
+      <div class="calc__price">
+        {{ totalPriceText[0] }}
+        <span class="calc__price-number">
+          <ClientOnly>
+            <NumberAnimation
+              :from="0"
+              :to="totalPrice"
+              :format="theFormat"
+              :duration="0.3"
+              autoplay
+              easing="linear"
+            />
+          </ClientOnly>
+        </span>
+        {{ totalPriceText[1] }}
       </div>
-
-      <div v-if="hintObj.title" class="calc__hint">
-        <h4>{{ hintObj.title }}</h4>
-        <p>{{ hintObj.description }}</p>
-      </div>
+      <br />
+      <transition name="hint">
+        <div class="hint" v-if="hintObj.description">
+          <h3><img src="/img/icons/question.svg" />{{ hintObj.title }}</h3>
+          <p>{{ hintObj.description }}</p>
+        </div>
+      </transition>
     </div>
   </section>
 </template>
