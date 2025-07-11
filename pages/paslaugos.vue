@@ -25,9 +25,22 @@ const content = computed(() => (data.value as any)?.data);
         {{ content.pageTitle }}
       </h1>
 
-      <div v-for="block in content.services" :key="block.id" class="mb-12">
+      <div
+        v-for="(block, index) in content.services"
+        :key="block.id"
+        class="mb-12"
+      >
         <h1 class="paslaugos__title">
-          <img src="/img/icons/www.svg" />{{ block.title }}
+          <img
+            :src="
+              index === 0
+                ? '/img/icons/www.svg'
+                : index === 1
+                ? '/img/icons/design.svg'
+                : '/img/icons/services.svg'
+            "
+          />
+          {{ block.title }}
         </h1>
         <div class="paslaugos__content">
           <div v-html="md.render(block.text)"></div>

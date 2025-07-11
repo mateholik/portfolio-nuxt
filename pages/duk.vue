@@ -31,14 +31,14 @@ useSeoMeta(metaTagsObj);
         <p>{{ content.pageDescription }}</p>
       </div>
 
-      <h2><img src="/img/icons/question.svg" />{{ content.faqTitle }}</h2>
+      <h2><img :src="`/img/icons/question.svg`" />{{ content.faqTitle }}</h2>
 
       <div class="faq__inner">
         <ExpandableBlock
           v-for="(item, index) in faqs"
           :key="item.id"
           :isOpen="index === 0"
-          :iconName="'question'"
+          :iconName="item.Icon"
           :question="item.question"
           :answer="item.answer"
         />

@@ -41,45 +41,66 @@ watch(
         <template v-else-if="content">
           <NuxtLink to="/" class="me">
             <div class="me__img">
-              <img
-                :src="useGetImage(content.image.url)"
-                :alt="content.image.alternativeText || 'profile image'"
-              />
+              <img :src="useGetImage(content.image.url)" alt="profile image" />
             </div>
             <div class="me__title">{{ content.title }}</div>
             <div class="me__subtitle">{{ content.subTitle }}</div>
           </NuxtLink>
+          <div class="nav">
+            <div class="nav__mobile">
+              <div class="socials socials--mobile">
+                <ul class="socials__ul">
+                  <li
+                    v-for="item in content.social_links"
+                    :key="item.id"
+                    class="socials__li socials__li--mobile"
+                  >
+                    <a class="socials__link" target="_blank" :href="item.link">
+                      <nuxt-icon :name="item.iconName"></nuxt-icon>
+                      <span>{{ item.title }}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
-          <nav class="nav">
-            <ul class="nav__list">
+              <div @click="mobileNav = !mobileNav" class="nav__mobile-btn">
+                <img src="/img/icons/menu.svg" />
+              </div>
+            </div>
+            <ul class="nav__ul--desktop">
               <li
                 v-for="item in content.menu_items || fallbackMenuItems"
+                class="nav__li"
                 :key="item.id"
-                class="nav__item"
               >
-                <NuxtLink
-                  :to="item.path"
-                  class="nav__link"
-                  active-class="nav__link--active"
-                >
-                  {{ item.title }}
-                </NuxtLink>
+                <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
               </li>
             </ul>
-          </nav>
-
-          <div class="social">
-            <a
-              v-for="social in content.social_links"
-              :key="social.id"
-              :href="social.link"
-              class="social__link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <nuxt-icon :name="social.iconName" />
-              <span>{{ social.title }}</span>
-            </a>
+            <Transition name="slide-menu" mode="out-in">
+              <ul class="nav__ul" v-if="mobileNav">
+                <li
+                  v-for="item in content.menu_items || fallbackMenuItems"
+                  :key="item.id"
+                  class="nav__li"
+                >
+                  <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
+                </li>
+              </ul>
+            </Transition>
+          </div>
+          <div class="socials">
+            <ul class="socials__ul">
+              <li
+                v-for="item in content.social_links"
+                :key="item.id"
+                class="socials__li socials__li"
+              >
+                <a class="socials__link" target="_blank" :href="item.link">
+                  <nuxt-icon :name="item.iconName"></nuxt-icon>
+                  <span>{{ item.title }}</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </template>
       </div>
