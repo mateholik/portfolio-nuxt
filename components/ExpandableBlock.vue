@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import type { expandableBlockProps } from "~/types/props";
+import type { expandableBlockProps } from '~/types/props';
+import markdownIt from 'markdown-it';
 
 const props = defineProps<expandableBlockProps>();
+
+const md = markdownIt();
 
 const isOpen = ref(props.isOpen);
 
@@ -11,7 +14,7 @@ const toggle = (event: Event) => {
     const target = event.target as HTMLElement | null;
     if (target) {
       target.scrollIntoView({
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, 250);
@@ -36,7 +39,7 @@ const toggle = (event: Event) => {
       enter-active-class="animated fadeInLeft"
       leave-active-class="animated fadeOutLeft"
     >
-      <p v-if="isOpen" v-html="answer" class="item__content"></p>
+      <p v-if="isOpen" v-html="md.render(answer)" class="item__content"></p>
     </transition>
   </div>
 </template>
