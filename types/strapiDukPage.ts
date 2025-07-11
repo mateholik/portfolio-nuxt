@@ -1,21 +1,19 @@
-export interface Attribute {
+// FAQ item attributes
+export interface FaqItemAttributes {
   question: string;
   answer: string;
+  iconName: string;
   createdAt: string;
   updatedAt: string;
-  iconName: string;
 }
 
-export interface FaqAttribute {
+// FAQ item with populated data
+export interface FaqItem {
   id: number;
-  attributes: Attribute;
-  open: boolean;
+  attributes: FaqItemAttributes;
 }
 
-export interface Faq {
-  data: FaqAttribute[];
-}
-
+// Main FAQ page attributes with populated data
 export interface PageAttributes {
   pageTitle: string;
   pageDescription: string;
@@ -23,5 +21,10 @@ export interface PageAttributes {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  faqs: Faq;
+  faqs: FaqItem[]; // Populated by controller
+}
+
+// SEO integration
+export interface FaqPageWithSeo extends PageAttributes {
+  seo?: import('./strapiSeo').SeoAttributes;
 }

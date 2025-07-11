@@ -1,30 +1,27 @@
 export interface BaseAttributes {
   createdAt: string;
   updatedAt: string;
-  title: string;
+  publishedAt: string;
 }
 
-export interface CategoryData {
-  id: number;
-  attributes: BaseAttributes;
+export interface CategoryAttributes extends BaseAttributes {
+  // Add any additional category-specific fields here
 }
 
 export interface Category {
-  data: CategoryData;
-}
-
-export interface ImageAttributes {
-  name: string;
-  url: string;
-}
-
-export interface ImageData {
   id: number;
-  attributes: ImageAttributes;
+  attributes: CategoryAttributes;
 }
 
 export interface Image {
-  data: ImageData;
+  id: number;
+  name: string;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  formats?: Record<string, any>;
 }
 
 export interface Card {
@@ -32,7 +29,6 @@ export interface Card {
   title: string;
   url: string;
   subTitle: string;
-  category: Category;
   image: Image;
 }
 
@@ -42,7 +38,12 @@ export interface Website {
   card: Card[];
 }
 
-export interface PageAttributes extends BaseAttributes {
-  publishedAt: string;
+export interface PortfolioPageAttributes extends BaseAttributes {
+  id: number;
+  title: string;
   websites: Website[];
+}
+
+export interface PortfolioPageWithSeo extends PortfolioPageAttributes {
+  seo?: import('./strapiSeo').SeoAttributes;
 }

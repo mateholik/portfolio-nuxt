@@ -4,53 +4,41 @@ export interface BaseAttributes {
   publishedAt: string;
 }
 
-export interface MenuItemAttributes extends BaseAttributes {
+export interface MenuItem {
+  id: number;
   title: string;
   path: string;
-}
-
-export interface MenuItemData {
-  id: number;
-  attributes: MenuItemAttributes;
-}
-
-export interface MenuItem {
-  data: MenuItemData[];
-}
-
-export interface SocialLinkAttributes extends BaseAttributes {
-  title: string;
-  iconName: string;
-  link: string;
-}
-
-export interface SocialLinkData {
-  id: number;
-  attributes: SocialLinkAttributes;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 export interface SocialLink {
-  data: SocialLinkData[];
-}
-
-export interface ImageAttributes {
-  url: string;
-  name: string;
-}
-
-export interface ImageData {
   id: number;
-  attributes: ImageAttributes;
+  title: string;
+  iconName: string;
+  link: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 export interface Image {
-  data: ImageData;
+  id: number;
+  name: string;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  formats?: Record<string, any>;
 }
 
 export interface SidebarAttributes extends BaseAttributes {
+  id: number;
   title: string;
   subTitle: string;
-  menu_items: MenuItem;
-  social_links: SocialLink;
+  menu_items: MenuItem[];
+  social_links: SocialLink[];
   image: Image;
 }
