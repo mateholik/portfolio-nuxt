@@ -1,6 +1,6 @@
 export const useGetImage = (imageLink: string): string => {
-  // const config = useRuntimeConfig();
+  const config = useRuntimeConfig();
 
-  return imageLink;
-  // return config.public.strapiApiUrl + imageLink;
+  // return imageLink;
+  return config.public.strapiApiUrl + imageLink;
 };
