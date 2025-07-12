@@ -1,11 +1,12 @@
-@import "reset";
-@import "animations";
-@import "settings";
-@import "aside";
-@import "portfolio";
-@import "faq";
-@import "calc";
-@import "paslaugos";
+@import 'reset';
+@import 'animations';
+@import 'settings';
+@import 'page-fallbacks';
+@import 'aside';
+@import 'portfolio';
+@import 'faq';
+@import 'calc';
+@import 'paslaugos';
 
 .footer {
   position: absolute;

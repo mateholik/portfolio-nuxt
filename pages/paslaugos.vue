@@ -51,9 +51,9 @@ watchEffect(() => {
     </div>
 
     <div v-else-if="isReady && pageContent">
-      <h1 v-if="pageTitle" class="paslaugos__main-title">
+      <!-- <h1 v-if="pageTitle" class="paslaugos__main-title">
         {{ pageTitle }}
-      </h1>
+      </h1> -->
 
       <div v-for="(block, index) in services" :key="block.id" class="mb-12">
         <h1 class="paslaugos__title">
@@ -75,40 +75,3 @@ watchEffect(() => {
     </div>
   </section>
 </template>
-
-<style>
-.service-ul ul {
-  @apply list-disc pl-8;
-}
-
-.paslaugos__main-title {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.loading,
-.error,
-.no-content {
-  text-align: center;
-  padding: 2rem;
-}
-
-.error {
-  color: #dc2626;
-}
-
-.retry-btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-}
-
-.retry-btn:hover {
-  background: #2563eb;
-}
-</style>

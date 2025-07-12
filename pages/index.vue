@@ -72,30 +72,3 @@ watchEffect(() => {
     </div>
   </section>
 </template>
-
-<style scoped>
-.loading,
-.error,
-.no-content {
-  text-align: center;
-  padding: 2rem;
-}
-
-.error {
-  color: #dc2626;
-}
-
-.retry-btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-}
-
-.retry-btn:hover {
-  background: #2563eb;
-}
-</style>
