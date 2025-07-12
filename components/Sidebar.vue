@@ -1,14 +1,27 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useSidebarData, useLoadingState } from '~/composables/useStrapiData';
 import { useGetImage } from '~/composables/useGetImage';
+import type { Sidebar } from '~/types/strapiTypes';
 
-// Simplified data fetching - controllers handle population
-const { data, pending, error, refresh } = await useAsyncData('sidebar', () =>
-  useStrapi().findOne('sidebar')
+// Use the new centralized data fetching (no SEO for sidebar)
+const { data, pending, error } = await useSidebarData();
+
+// Enhanced loading state management
+const { isLoading, hasError, isReady } = useLoadingState(pending, error);
+
+// Computed properties for better template readability
+const sidebarContent = computed(() => data.value);
+const socialLinks = computed(() => sidebarContent.value?.social_links || []);
+const menuItems = computed(
+  () => sidebarContent.value?.menu_items || fallbackMenuItems
+);
+const profileImage = computed(() =>
+  sidebarContent.value?.image?.url
+    ? useGetImage(sidebarContent.value.image.url)
+    : '/img/me.jpg'
 );
 
-// Fix: The API returns { data: { ...attributes }, meta: {} }
-const content = computed(() => (data.value as any)?.data);
 const mobileNav = ref(false);
 
 // Fallback menu items if not provided by API
@@ -34,24 +47,32 @@ watch(
     <div class="aside">
       <!-- <Snow></Snow> -->
       <div class="aside__inner">
-        <div v-if="pending" class="loading">Loading...</div>
+        <div v-if="isLoading" class="loading">
+          <p>Loading...</p>
+        </div>
 
-        <div v-else-if="error" class="error">Failed to load sidebar data.</div>
+        <div v-else-if="hasError" class="error">
+          <p>Failed to load sidebar data.</p>
+        </div>
 
-        <template v-else-if="content">
+        <template v-else-if="isReady && sidebarContent">
           <NuxtLink to="/" class="me">
             <div class="me__img">
-              <img :src="useGetImage(content.image.url)" alt="profile image" />
+              <img :src="profileImage" alt="Profile image" />
             </div>
-            <div class="me__title">{{ content.title }}</div>
-            <div class="me__subtitle">{{ content.subTitle }}</div>
+            <div class="me__title">{{ sidebarContent.title }}</div>
+            <div class="me__subtitle">{{ sidebarContent.subTitle }}</div>
           </NuxtLink>
+
           <div class="nav">
             <div class="nav__mobile">
-              <div class="socials socials--mobile">
+              <div
+                class="socials socials--mobile"
+                v-if="socialLinks.length > 0"
+              >
                 <ul class="socials__ul">
                   <li
-                    v-for="item in content.social_links"
+                    v-for="item in socialLinks"
                     :key="item.id"
                     class="socials__li socials__li--mobile"
                   >
@@ -64,34 +85,29 @@ watch(
               </div>
 
               <div @click="mobileNav = !mobileNav" class="nav__mobile-btn">
-                <img src="/img/icons/menu.svg" />
+                <img src="/img/icons/menu.svg" alt="Menu" />
               </div>
             </div>
+
             <ul class="nav__ul--desktop">
-              <li
-                v-for="item in content.menu_items || fallbackMenuItems"
-                class="nav__li"
-                :key="item.id"
-              >
+              <li v-for="item in menuItems" class="nav__li" :key="item.id">
                 <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
               </li>
             </ul>
+
             <Transition name="slide-menu" mode="out-in">
               <ul class="nav__ul" v-if="mobileNav">
-                <li
-                  v-for="item in content.menu_items || fallbackMenuItems"
-                  :key="item.id"
-                  class="nav__li"
-                >
+                <li v-for="item in menuItems" :key="item.id" class="nav__li">
                   <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
                 </li>
               </ul>
             </Transition>
           </div>
-          <div class="socials">
+
+          <div class="socials" v-if="socialLinks.length > 0">
             <ul class="socials__ul">
               <li
-                v-for="item in content.social_links"
+                v-for="item in socialLinks"
                 :key="item.id"
                 class="socials__li socials__li"
               >
@@ -108,3 +124,16 @@ watch(
     </div>
   </aside>
 </template>
+
+<style scoped>
+.loading,
+.error {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.error {
+  color: #dc2626;
+}
+</style>

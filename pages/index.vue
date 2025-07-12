@@ -1,37 +1,53 @@
 <script setup lang="ts">
+import { usePortfolioPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 import { useGetImage } from '~/composables/useGetImage';
+import type { PortfolioPage } from '~/types/strapiTypes';
 
-// Simplified data fetching - controllers handle population
-const { data, pending, error, refresh } = await useAsyncData(
-  'portfolio-page',
-  () => useStrapi().findOne('portfolio-page')
-);
+// Use the new centralized data fetching
+const { data, pending, error, refresh } = await usePortfolioPage();
 
-// Fix: The API returns { data: { ...attributes }, meta: {} }
-const content = computed(() => (data.value as any)?.data);
+// Enhanced loading state management
+const { isLoading, hasError, isReady } = useLoadingState(pending, error);
 
-// SEO handling (skip for now since seo might not be in the response)
-// const { metaTagsObj } = useSeoMetaCustom(content.value?.seo);
-// useSeoMeta(metaTagsObj);
+// Computed properties for better template readability
+const pageContent = computed(() => data.value);
+const websiteBlocks = computed(() => pageContent.value?.websites || []);
+const pageTitle = computed(() => pageContent.value?.title || 'Portfolio');
+
+// Handle SEO separately to avoid SSR issues
+watchEffect(() => {
+  if (pageContent.value?.seo) {
+    const { metaTagsObj, applyStructuredData } = useSeoMetaCustom(
+      pageContent.value.seo
+    );
+    useSeoMeta(unref(metaTagsObj));
+    applyStructuredData();
+  }
+});
 </script>
 
 <template>
   <section class="portfolio">
-    <div v-if="pending" class="loading">Loading portfolio...</div>
-
-    <div v-else-if="error" class="error">
-      Failed to load portfolio. Please try again.
+    <div v-if="isLoading" class="loading">
+      <p>Loading portfolio...</p>
     </div>
 
-    <div v-else-if="content">
+    <div v-else-if="hasError" class="error">
+      <p>Failed to load portfolio. Please try again.</p>
+      <button @click="refresh" class="retry-btn">Retry</button>
+    </div>
+
+    <div v-else-if="isReady && pageContent">
       <h1 class="portfolio__title">
-        <img src="/img/icons/portfolio.svg" />{{ content.title }}
+        <img src="/img/icons/portfolio.svg" alt="Portfolio icon" />
+        {{ pageTitle }}
       </h1>
 
-      <div v-for="block in content.websites" :key="block.id">
+      <div v-for="block in websiteBlocks" :key="block.id">
         <h2 class="portfolio__subtitle">
-          <img src="/img/icons/check.svg" />{{ block.title }}
+          <img src="/img/icons/check.svg" alt="Check icon" />
+          {{ block.title }}
         </h2>
 
         <div class="portfolio__inner">
@@ -45,10 +61,41 @@ const content = computed(() => (data.value as any)?.data);
           />
         </div>
       </div>
+
+      <div v-if="websiteBlocks.length === 0" class="no-content">
+        <p>No portfolio items available at the moment.</p>
+      </div>
     </div>
 
-    <div v-else>
-      <h2>No content found</h2>
+    <div v-else class="no-content">
+      <p>No content available.</p>
     </div>
   </section>
 </template>
+
+<style scoped>
+.loading,
+.error,
+.no-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.retry-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.retry-btn:hover {
+  background: #2563eb;
+}
+</style>

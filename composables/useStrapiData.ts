@@ -1,131 +1,179 @@
 import type { AsyncData } from 'nuxt/app';
+import type {
+  PortfolioPageResponse,
+  JavascriptPageResponse,
+  ServicesPageResponse,
+  FAQPageResponse,
+  PricePageResponse,
+  SidebarResponse,
+  PortfolioPage,
+  JavascriptPage,
+  ServicesPage,
+  FAQPage,
+  PricePage,
+  Sidebar,
+  SEO,
+} from '~/types/strapiTypes';
 
-export interface StrapiResponse<T> {
-  data: {
-    id: number;
-    attributes: T;
-  };
-  meta: Record<string, any>;
+export interface StrapiDataOptions {
+  key?: string;
+  server?: boolean;
+  lazy?: boolean;
+  default?: () => any;
+  transform?: (data: any) => any;
 }
 
-export interface StrapiError {
-  message: string;
-  status: number;
+export interface StrapiDataResult<T> {
+  data: Ref<T | null>;
+  pending: Ref<boolean>;
+  error: Ref<Error | null>;
+  refresh: () => Promise<void>;
+  execute: () => Promise<void>;
 }
 
 /**
- * Centralized composable for Strapi data fetching
- * Leverages the new controller-based population from backend
+ * Enhanced centralized composable for Strapi data fetching with TypeScript support
+ * SEO handling is now separated to avoid SSR issues
  */
 export const useStrapiData = () => {
   const strapi = useStrapi();
 
   /**
-   * Fetch a single content type with automatic population
-   * Controllers now handle population, so we don't need complex populate queries
+   * Generic fetch function with proper typing and error handling
    */
-  const fetchSingle = async (contentType: string, key?: string) => {
-    return await useAsyncData(
-      key || contentType,
+  const fetchData = async <T>(
+    endpoint: string,
+    options: StrapiDataOptions = {}
+  ): Promise<StrapiDataResult<T>> => {
+    const { key = endpoint, server = true, lazy = false, transform } = options;
+
+    const { data, pending, error, refresh, execute } = await useAsyncData(
+      key,
       async () => {
         try {
-          const response = await strapi.findOne(contentType);
-
-          if (!response?.data?.attributes) {
-            throw new Error(`No data found for ${contentType}`);
-          }
-
-          return response.data.attributes;
-        } catch (error) {
-          console.error(`Error fetching ${contentType}:`, error);
-          throw createError({
-            statusCode: 500,
-            statusMessage: `Failed to fetch ${contentType}`,
-          });
-        }
-      },
-      {
-        server: true,
-        default: () => null,
-      }
-    );
-  };
-
-  /**
-   * Fetch multiple content types with automatic population
-   */
-  const fetchMany = async (contentType: string, key?: string) => {
-    return await useAsyncData(
-      key || `${contentType}-list`,
-      async () => {
-        try {
-          const response = await strapi.find(contentType);
+          const response = await strapi.findOne(endpoint);
 
           if (!response?.data) {
-            throw new Error(`No data found for ${contentType}`);
+            throw new Error(`No data found for ${endpoint}`);
           }
 
-          return Array.isArray(response.data)
-            ? response.data.map((item: any) => item.attributes)
-            : [response.data.attributes];
-        } catch (error) {
-          console.error(`Error fetching ${contentType}:`, error);
+          // Transform the data if transformer provided
+          const transformedData = transform
+            ? transform(response.data)
+            : response.data;
+
+          return transformedData;
+        } catch (err) {
+          console.error(`Error fetching ${endpoint}:`, err);
           throw createError({
             statusCode: 500,
-            statusMessage: `Failed to fetch ${contentType}`,
+            statusMessage: `Failed to fetch ${endpoint}`,
+            cause: err,
           });
         }
       },
       {
-        server: true,
-        default: () => [],
+        server,
+        lazy,
+        default: () => options.default?.() || null,
       }
     );
-  };
 
-  /**
-   * Refresh data for a specific content type
-   */
-  const refreshData = async (key: string) => {
-    await refreshCookie(key);
+    return {
+      data,
+      pending,
+      error,
+      refresh,
+      execute,
+    };
   };
 
   return {
-    fetchSingle,
-    fetchMany,
-    refreshData,
+    fetchData,
   };
 };
 
 /**
- * Specific composables for each content type
+ * Typed composables for each content type
+ * SEO is handled separately to avoid SSR issues
  */
-export const usePortfolioPage = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('portfolio-page', 'portfolio-page');
+export const usePortfolioPage = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<PortfolioPage>('portfolio-page', {
+    key: 'portfolio-page',
+    ...options,
+  });
 };
 
-export const useJavascriptPage = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('javascript-page', 'javascript-page');
+export const useJavascriptPage = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<JavascriptPage>('javascript-page', {
+    key: 'javascript-page',
+    ...options,
+  });
 };
 
-export const useFaqPage = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('faq-page', 'faq-page');
+export const useServicesPage = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<ServicesPage>('services-page', {
+    key: 'services-page',
+    ...options,
+  });
 };
 
-export const usePricePage = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('price-page', 'price-page');
+export const useFaqPage = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<FAQPage>('faq-page', {
+    key: 'faq-page',
+    ...options,
+  });
 };
 
-export const useServicesPage = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('services-page', 'services-page');
+export const usePricePage = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<PricePage>('price-page', {
+    key: 'price-page',
+    ...options,
+  });
 };
 
-export const useSidebarData = () => {
-  const { fetchSingle } = useStrapiData();
-  return fetchSingle('sidebar', 'sidebar');
+export const useSidebarData = async (options: StrapiDataOptions = {}) => {
+  const { fetchData } = useStrapiData();
+
+  return await fetchData<Sidebar>('sidebar', {
+    key: 'sidebar',
+    ...options,
+  });
+};
+
+/**
+ * Utility function to safely access nested properties
+ */
+export const safeGet = <T>(obj: any, path: string, defaultValue?: T): T => {
+  return path.split('.').reduce((current, key) => {
+    return current?.[key] !== undefined ? current[key] : defaultValue;
+  }, obj);
+};
+
+/**
+ * Utility function for loading states
+ */
+export const useLoadingState = (
+  pending: Ref<boolean>,
+  error: Ref<Error | null>
+) => {
+  const isLoading = computed(() => pending.value);
+  const hasError = computed(() => !!error.value);
+  const isReady = computed(() => !pending.value && !error.value);
+
+  return {
+    isLoading,
+    hasError,
+    isReady,
+  };
 };
