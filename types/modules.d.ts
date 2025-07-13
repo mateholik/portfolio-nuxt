@@ -14,7 +14,7 @@ declare module 'markdown-it' {
 }
 
 declare module 'vue-number-animation' {
-  import { DefineComponent } from 'vue';
+  import type { DefineComponent } from 'vue';
 
   interface NumberAnimationProps {
     from?: number;

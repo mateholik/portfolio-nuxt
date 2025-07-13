@@ -41,18 +41,18 @@ watchEffect(() => {
 
     <div v-else-if="hasError" class="error">
       <p>Failed to load JavaScript projects. Please try again.</p>
-      <button @click="refresh" class="retry-btn">Retry</button>
+      <button class="retry-btn" @click="refresh">Retry</button>
     </div>
 
     <div v-else-if="isReady && pageContent">
       <h1 class="portfolio__title">
-        <img src="/img/icons/portfolio.svg" alt="Portfolio icon" />
+        <img src="/img/icons/portfolio.svg" alt="Portfolio icon" >
         {{ pageTitle }}
       </h1>
 
       <div v-if="websiteProjects.length > 0">
         <h2 class="portfolio__subtitle">
-          <img src="/img/icons/check.svg" alt="Check icon" />
+          <img src="/img/icons/check.svg" alt="Check icon" >
           {{ websiteTitle }}
         </h2>
 
@@ -61,7 +61,7 @@ watchEffect(() => {
             v-for="card in websiteProjects"
             :key="card.id"
             :title="card.title"
-            :subTitle="card.subTitle"
+            :sub-title="card.subTitle"
             :image="useGetImage(card.image.url)"
             :url="card.url"
           />

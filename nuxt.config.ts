@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/strapi', 'nuxt-icons'],
+  modules: ['@nuxtjs/strapi', 'nuxt-icons', '@nuxt/eslint'],
 
   runtimeConfig: {
     public: {

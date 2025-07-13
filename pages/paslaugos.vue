@@ -47,7 +47,7 @@ watchEffect(() => {
 
     <div v-else-if="hasError" class="error">
       <p>Failed to load services. Please try again.</p>
-      <button @click="refresh" class="retry-btn">Retry</button>
+      <button class="retry-btn" @click="refresh">Retry</button>
     </div>
 
     <div v-else-if="isReady && pageContent">
@@ -57,11 +57,11 @@ watchEffect(() => {
 
       <div v-for="(block, index) in services" :key="block.id" class="mb-12">
         <h1 class="paslaugos__title">
-          <img :src="getServiceIcon(index)" :alt="`${block.title} icon`" />
+          <img :src="getServiceIcon(index)" :alt="`${block.title} icon`" >
           {{ block.title }}
         </h1>
         <div class="paslaugos__content">
-          <div v-html="md.render(block.text)"></div>
+          <div v-html="md.render(block.text)"/>
         </div>
       </div>
 

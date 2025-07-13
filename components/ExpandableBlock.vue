@@ -23,23 +23,23 @@ const toggle = (event: Event) => {
 
 <template>
   <div class="item">
-    <h2 @click="toggle($event)" :class="{ open: isOpen }" class="item__header">
+    <h2 :class="{ open: isOpen }" class="item__header" @click="toggle($event)">
       <span>
-        <img :src="`/img/icons/${iconName}.svg`" />
+        <img :src="`/img/icons/${iconName}.svg`" >
         {{ question }}
       </span>
       <img
         :class="{ rotate: isOpen }"
         class="item__header-rot"
         :src="`/img/icons/arrow2.svg`"
-      />
+      >
     </h2>
     <transition
       name="faq-animation"
       enter-active-class="animated fadeInLeft"
       leave-active-class="animated fadeOutLeft"
     >
-      <p v-if="isOpen" v-html="md.render(answer)" class="item__content"></p>
+      <p v-if="isOpen" class="item__content" v-html="md.render(answer)"/>
     </transition>
   </div>
 </template>

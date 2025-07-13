@@ -41,7 +41,7 @@ watchEffect(() => {
 
     <div v-else-if="hasError" class="error">
       <p>Failed to load FAQ. Please try again.</p>
-      <button @click="refresh" class="retry-btn">Retry</button>
+      <button class="retry-btn" @click="refresh">Retry</button>
     </div>
 
     <div v-else-if="isReady && pageContent" class="faq">
@@ -51,17 +51,17 @@ watchEffect(() => {
       </div>
 
       <h2>
-        <img src="/img/icons/question.svg" alt="Question icon" />
+        <img src="/img/icons/question.svg" alt="Question icon" >
         {{ faqTitle }}
       </h2>
 
-      <div class="faq__inner" v-if="faqs.length > 0">
+      <div v-if="faqs.length > 0" class="faq__inner">
         <ClientOnly>
           <ExpandableBlock
             v-for="(item, index) in faqs"
             :key="item.id"
-            :isOpen="index === 0"
-            :iconName="item.Icon || 'question'"
+            :is-open="index === 0"
+            :icon-name="item.Icon || 'question'"
             :question="item.question"
             :answer="item.answer"
           />

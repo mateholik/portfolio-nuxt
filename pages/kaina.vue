@@ -79,12 +79,12 @@ watchEffect(() => {
 
     <div v-else-if="hasError" class="error">
       <p>Failed to load price calculator. Please try again.</p>
-      <button @click="refresh" class="retry-btn">Retry</button>
+      <button class="retry-btn" @click="refresh">Retry</button>
     </div>
 
     <div v-else-if="isReady && pageContent" class="calc">
       <h1>
-        <img src="/img/icons/euro.svg" alt="Euro icon" />
+        <img src="/img/icons/euro.svg" alt="Euro icon" >
         {{ pageTitle }}
       </h1>
 
@@ -107,11 +107,11 @@ watchEffect(() => {
 
       <div
         v-if="pageContent.mobText"
-        v-html="md.render(pageContent.mobText)"
         class="mob-text"
-      ></div>
+        v-html="md.render(pageContent.mobText)"
+      />
 
-      <div class="calc__table" ref="answers" v-if="calcBlocks.length > 0">
+      <div v-if="calcBlocks.length > 0" ref="answers" class="calc__table">
         <div v-for="(column, i) in calcBlocks" :key="i" style="flex: 1">
           <div class="calc__row">
             <div class="calc__column calc__column--main">
@@ -119,10 +119,10 @@ watchEffect(() => {
             </div>
             <div
               v-for="(item, index) in column.option"
-              @click="selectOptionInBlock(item, i)"
-              class="calc__column"
               :key="index"
+              class="calc__column"
               :class="{ active: item.active }"
+              @click="selectOptionInBlock(item, i)"
             >
               {{ item.title || 'Option' }}
             </div>
@@ -148,12 +148,12 @@ watchEffect(() => {
         {{ totalPriceText[1] }}
       </div>
 
-      <br />
+      <br >
 
       <transition name="hint">
-        <div class="hint" v-if="hintObj.description">
+        <div v-if="hintObj.description" class="hint">
           <h3>
-            <img src="/img/icons/question.svg" alt="Question icon" />
+            <img src="/img/icons/question.svg" alt="Question icon" >
             {{ hintObj.title }}
           </h3>
           <p>{{ hintObj.description }}</p>

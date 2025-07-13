@@ -58,7 +58,7 @@ watch(
         <template v-else-if="isReady && sidebarContent">
           <NuxtLink to="/" class="me">
             <div class="me__img">
-              <img :src="profileImage" alt="Profile image" />
+              <img :src="profileImage" alt="Profile image" >
             </div>
             <div class="me__title">{{ sidebarContent.title }}</div>
             <div class="me__subtitle">{{ sidebarContent.subTitle }}</div>
@@ -67,8 +67,8 @@ watch(
           <div class="nav">
             <div class="nav__mobile">
               <div
-                class="socials socials--mobile"
                 v-if="socialLinks.length > 0"
+                class="socials socials--mobile"
               >
                 <ul class="socials__ul">
                   <li
@@ -77,26 +77,26 @@ watch(
                     class="socials__li socials__li--mobile"
                   >
                     <a class="socials__link" target="_blank" :href="item.link">
-                      <nuxt-icon :name="item.iconName"></nuxt-icon>
+                      <nuxt-icon :name="item.iconName"/>
                       <span>{{ item.title }}</span>
                     </a>
                   </li>
                 </ul>
               </div>
 
-              <div @click="mobileNav = !mobileNav" class="nav__mobile-btn">
-                <img src="/img/icons/menu.svg" alt="Menu" />
+              <div class="nav__mobile-btn" @click="mobileNav = !mobileNav">
+                <img src="/img/icons/menu.svg" alt="Menu" >
               </div>
             </div>
 
             <ul class="nav__ul--desktop">
-              <li v-for="item in menuItems" class="nav__li" :key="item.id">
+              <li v-for="item in menuItems" :key="item.id" class="nav__li">
                 <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
               </li>
             </ul>
 
             <Transition name="slide-menu" mode="out-in">
-              <ul class="nav__ul" v-if="mobileNav">
+              <ul v-if="mobileNav" class="nav__ul">
                 <li v-for="item in menuItems" :key="item.id" class="nav__li">
                   <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
                 </li>
@@ -104,7 +104,7 @@ watch(
             </Transition>
           </div>
 
-          <div class="socials" v-if="socialLinks.length > 0">
+          <div v-if="socialLinks.length > 0" class="socials">
             <ul class="socials__ul">
               <li
                 v-for="item in socialLinks"
@@ -112,7 +112,7 @@ watch(
                 class="socials__li socials__li"
               >
                 <a class="socials__link" target="_blank" :href="item.link">
-                  <nuxt-icon :name="item.iconName"></nuxt-icon>
+                  <nuxt-icon :name="item.iconName"/>
                   <span>{{ item.title }}</span>
                 </a>
               </li>
@@ -120,7 +120,7 @@ watch(
           </div>
         </template>
       </div>
-      <Copyright></Copyright>
+      <Copyright/>
     </div>
   </aside>
 </template>
