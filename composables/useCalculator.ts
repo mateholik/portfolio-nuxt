@@ -9,22 +9,42 @@ interface CalculatorBlock extends Omit<PriceBlock, 'option'> {
   option: CalculatorOption[];
 }
 
-export const useCalculator = (blocks: PriceBlock[]) => {
-  // Transform the blocks to include active property
-  const initialBlocks: CalculatorBlock[] = blocks.map((block) => ({
-    ...block,
-    option: block.option.map((option) => ({
-      ...option,
-      active: false,
-    })),
-  }));
-
+export const useCalculator = (
+  blocksSource: Ref<PriceBlock[]> | ComputedRef<PriceBlock[]>
+) => {
   const totalPrice = ref(0);
-  const calcBlocks = ref(initialBlocks);
+  const calcBlocks = ref<CalculatorBlock[]>([]);
   const hintObj = ref({
     title: '',
     description: '',
   });
+  const isInitialized = ref(false);
+
+  // Function to transform blocks data
+  const transformBlocks = (blocks: PriceBlock[]): CalculatorBlock[] => {
+    return blocks.map((block) => ({
+      ...block,
+      option: block.option.map((option) => ({
+        ...option,
+        active: false,
+      })),
+    }));
+  };
+
+  // Watch for changes in the blocks source and update calcBlocks
+  watch(
+    blocksSource,
+    (newBlocks) => {
+      if (newBlocks.length > 0) {
+        calcBlocks.value = transformBlocks(newBlocks);
+        isInitialized.value = false; // Reset initialization flag when data changes
+      } else {
+        calcBlocks.value = [];
+        isInitialized.value = false;
+      }
+    },
+    { immediate: true }
+  );
 
   const setTotalPrice = () => {
     let total = 0;
@@ -37,9 +57,11 @@ export const useCalculator = (blocks: PriceBlock[]) => {
   };
 
   const resetBlockOptions = (index: number) => {
-    calcBlocks.value[index].option.forEach((option: CalculatorOption) => {
-      option.active = false;
-    });
+    if (calcBlocks.value[index]) {
+      calcBlocks.value[index].option.forEach((option: CalculatorOption) => {
+        option.active = false;
+      });
+    }
   };
 
   const setHintObj = (index: number, option: CalculatorOption) => {
@@ -60,11 +82,26 @@ export const useCalculator = (blocks: PriceBlock[]) => {
   };
 
   const initCalc = () => {
+    if (calcBlocks.value.length === 0) {
+      return;
+    }
+
+    if (isInitialized.value) {
+      return;
+    }
+
+    isInitialized.value = true;
+
     let timer = 500;
     for (let i = 0; i < calcBlocks.value.length; i++) {
       setTimeout(() => {
-        calcBlocks.value[i].option[i % 2 === 0 ? 0 : 1].active = true;
-        setTotalPrice();
+        if (calcBlocks.value[i]?.option?.length > 0) {
+          const optionIndex = i % 2 === 0 ? 0 : 1;
+          if (calcBlocks.value[i].option[optionIndex]) {
+            calcBlocks.value[i].option[optionIndex].active = true;
+            setTotalPrice();
+          }
+        }
       }, timer);
       timer += 500;
     }
@@ -74,6 +111,7 @@ export const useCalculator = (blocks: PriceBlock[]) => {
     totalPrice,
     calcBlocks,
     hintObj,
+    isInitialized,
     setTotalPrice,
     selectOptionInBlock,
     initCalc,

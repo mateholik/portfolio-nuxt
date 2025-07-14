@@ -12,28 +12,37 @@ const { data, pending, error, refresh } = await usePricePage();
 const { isLoading, hasError, isReady } = useLoadingState(pending, error);
 
 // Computed properties for better template readability
-const pageContent = computed(() => data.value);
-const pageTitle = computed(
-  () => pageContent.value?.pageTitle || 'Price Calculator'
-);
-const totalPriceText = computed(
-  () => pageContent.value?.totalPriceText?.split('<>') || ['Total: ', ' EUR']
-);
+const pageContent = computed(() => {
+  return data.value;
+});
+
+const pageTitle = computed(() => {
+  const title = pageContent.value?.pageTitle || 'Price Calculator';
+  return title;
+});
+
+const totalPriceText = computed(() => {
+  const text = pageContent.value?.totalPriceText?.split('<>') || ['Total: ', ' EUR'];
+  return text;
+});
 
 // Transform calculator data to include active property
 const calculatorData = computed(() => {
   const calculator = pageContent.value?.calculator || [];
-  return calculator.map((block) => ({
+
+  const transformed = calculator.map((block) => ({
     ...block,
     option: block.option.map((option) => ({
       ...option,
       active: false,
     })),
   }));
+
+  return transformed;
 });
 
-const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj } =
-  useCalculator(calculatorData.value);
+const { totalPrice, selectOptionInBlock, initCalc, calcBlocks, hintObj, isInitialized } =
+  useCalculator(calculatorData);
 
 const theFormat = (value: number) => {
   return value.toFixed();
@@ -41,21 +50,34 @@ const theFormat = (value: number) => {
 
 const { render } = useMarkdown();
 
-// Watch for data changes and reinitialize calculator
-watch(
-  calculatorData,
-  (newData) => {
-    if (newData.length > 0) {
-      initCalc();
-    }
-  },
-  { immediate: true }
-);
-
-onMounted(() => {
-  if (calculatorData.value.length > 0) {
+// Single autostart mechanism that works for both SSR and client
+const attemptAutostart = () => {
+  if (calcBlocks.value.length > 0 && !isInitialized.value) {
     initCalc();
   }
+};
+
+// Watch for when calculator data becomes available
+watch(
+  () => calcBlocks.value.length,
+  (newLength, _oldLength) => {
+    if (newLength > 0) {
+      // Small delay to ensure everything is ready
+      nextTick(() => {
+        setTimeout(() => {
+          attemptAutostart();
+        }, 100);
+      });
+    }
+  }
+);
+
+// Ensure autostart when component is mounted (for SSR hydration)
+onMounted(() => {
+  // Give a bit more time for SSR hydration to complete
+  setTimeout(() => {
+    attemptAutostart();
+  }, 300);
 });
 
 // Handle SEO separately to avoid SSR issues

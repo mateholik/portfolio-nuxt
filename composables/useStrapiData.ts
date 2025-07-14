@@ -56,11 +56,15 @@ export const useStrapiData = () => {
 
           return transformedData;
         } catch (err) {
-          console.error(`Error fetching ${endpoint}:`, err);
+          const error = err as Error;
+          console.error(
+            `❌ [useStrapiData] Error fetching ${endpoint}:`,
+            error
+          );
           throw createError({
             statusCode: 500,
             statusMessage: `Failed to fetch ${endpoint}`,
-            cause: err,
+            cause: error,
           });
         }
       },
@@ -130,6 +134,33 @@ export const usePricePage = async (options: StrapiDataOptions = {}) => {
 
   return await fetchData<PricePage>('price-page', {
     key: 'price-page',
+    transform: async (data) => {
+      // Since the strapi module doesn't support populate directly,
+      // let's try making a manual API call with populate parameters
+      try {
+        const strapi = useStrapi();
+
+        // Try to use the strapi client to make a custom query
+        const populatedResponse = await strapi.find('price-page', {
+          populate: {
+            calculator: {
+              populate: ['option'],
+            },
+            seo: {
+              populate: ['metaImage', 'metaSocial'],
+            },
+          },
+        });
+
+        if (populatedResponse?.data?.[0]) {
+          return populatedResponse.data[0];
+        }
+      } catch {
+        // Silently fall back to original data if populate fails
+      }
+
+      return data;
+    },
     ...options,
   });
 };
