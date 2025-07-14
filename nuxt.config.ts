@@ -9,11 +9,20 @@ export default defineNuxtConfig({
     typeCheck: false, // Disabled due to nuxt-icons third-party package errors
   },
 
+  // Site configuration - required for sitemap
+  site: {
+    url: 'https://vladis.lt',
+    name: 'Vladis Vaisov - WEB programuotojas',
+    description:
+      'Tinklalapiai, svetainės ir el. parduotuvės. HTML, CSS, JavaScript, React, Vue, WordPress',
+  },
+
   runtimeConfig: {
     public: {
       strapiApiUrl: process.env.STRAPI_API_URL || 'http://localhost:1337',
       // Optional flag to force static images even in development
       useStaticImages: process.env.USE_STATIC_IMAGES === 'true',
+      siteUrl: 'https://vladis.lt',
     },
   },
 
@@ -64,7 +73,7 @@ export default defineNuxtConfig({
 
   // Sitemap configuration
   sitemap: {
-    hostname: process.env.NUXT_PUBLIC_SITE_URL || 'https://vladis.lt',
+    hostname: 'https://vladis.lt',
     gzip: true,
     exclude: ['/api/**', '/__sitemap__/**'],
     defaults: {
