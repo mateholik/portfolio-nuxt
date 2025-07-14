@@ -68,7 +68,8 @@ watch(
               <div v-if="socialLinks.length > 0" class="socials socials--mobile">
                 <ul class="socials__ul">
                   <li v-for="item in socialLinks" :key="item.id" class="socials__li socials__li--mobile">
-                    <a class="socials__link" target="_blank" :href="item.link">
+                    <a class="socials__link" target="_blank" :href="item.link"
+                      :aria-label="`Visit my ${item.title} profile`">
                       <nuxt-icon :name="item.iconName" />
                       <span>{{ item.title }}</span>
                     </a>
@@ -99,7 +100,8 @@ watch(
           <div v-if="socialLinks.length > 0" class="socials">
             <ul class="socials__ul">
               <li v-for="item in socialLinks" :key="item.id" class="socials__li socials__li">
-                <a class="socials__link" target="_blank" :href="item.link">
+                <a class="socials__link" target="_blank" :href="item.link"
+                  :aria-label="`Visit my ${item.title} profile`">
                   <nuxt-icon :name="item.iconName" />
                   <span>{{ item.title }}</span>
                 </a>

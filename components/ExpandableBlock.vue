@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useMarkdown } from '~/composables/useMarkdown';
+
 type ExpandableBlockProps = {
   isOpen: boolean;
   iconName: string;

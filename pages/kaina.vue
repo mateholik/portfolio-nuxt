@@ -3,6 +3,7 @@ import NumberAnimation from 'vue-number-animation';
 import { useCalculator } from '~/composables/useCalculator';
 import { usePricePage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
+import { useMarkdown } from '~/composables/useMarkdown';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await usePricePage();

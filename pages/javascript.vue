@@ -56,7 +56,8 @@ watchEffect(() => {
         </h2>
 
         <div class="portfolio__inner">
-          <Card v-for="card in websiteProjects" :key="card.id" :title="card.title" :sub-title="card.subTitle"
+          <Card
+v-for="card in websiteProjects" :key="card.id" :title="card.title" :sub-title="card.subTitle"
             :image="useGetImage(card.image.url)" :url="card.url" />
         </div>
       </div>

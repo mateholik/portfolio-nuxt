@@ -7,8 +7,10 @@ import { GoTop } from "@inotom/vue-go-top";
   <div>
     <Sidebar />
     <div class="container">
-      <slot />
-      <GoTop :size="40" bg-color="rgba(215, 117, 19, 0.9)" :bottom="50" :max-width="319" :right="20" />
+      <ClientOnly>
+        <slot />
+        <GoTop :size="40" bg-color="rgba(215, 117, 19, 0.9)" :bottom="50" :max-width="319" :right="20" />
+      </ClientOnly>
       <Copyright class="footer-bottom" />
     </div>
   </div>

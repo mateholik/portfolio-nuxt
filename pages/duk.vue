@@ -56,7 +56,8 @@ watchEffect(() => {
 
       <div v-if="faqs.length > 0" class="faq__inner">
         <ClientOnly>
-          <ExpandableBlock v-for="(item, index) in faqs" :key="item.id" :is-open="index === 0"
+          <ExpandableBlock
+v-for="(item, index) in faqs" :key="item.id" :is-open="index === 0"
             :icon-name="item.Icon || 'question'" :question="item.question" :answer="item.answer" />
         </ClientOnly>
       </div>

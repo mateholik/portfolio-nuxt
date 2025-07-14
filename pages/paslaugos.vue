@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useServicesPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
+import { useMarkdown } from '~/composables/useMarkdown';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await useServicesPage();
