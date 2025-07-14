@@ -28,7 +28,34 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+        { rel: 'canonical', href: 'https://vladis.lt' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossorigin: '',
+        },
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: 'Vladis Vaisov',
+            jobTitle: 'WEB programuotojas',
+            description:
+              'Tinklalapiai, svetainės ir el. parduotuvės. HTML, CSS, JavaScript, React, Vue, WordPress',
+            url: 'https://vladis.lt',
+            workLocation: {
+              '@type': 'Place',
+              name: 'Lietuva',
+            },
+          }),
+        },
+      ],
       htmlAttrs: {
         lang: 'lt',
       },

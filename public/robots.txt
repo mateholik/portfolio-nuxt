@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Sitemap reference - Replace with your actual domain
-Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap reference
+Sitemap: https://vladis.lt/sitemap.xml
 
 # Block crawling of API routes and admin areas (if any)
 Disallow: /api/
