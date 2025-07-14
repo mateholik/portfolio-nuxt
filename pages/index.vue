@@ -2,12 +2,16 @@
 import { usePortfolioPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 import { useGetImage } from '~/composables/useGetImage';
+import { useImageLoadingStrategy } from '~/composables/useImageLoadingStrategy';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await usePortfolioPage();
 
 // Enhanced loading state management
 const { isLoading, hasError, isReady } = useLoadingState(pending, error);
+
+// Image loading strategy
+const { getImagesLoadingStrategy } = useImageLoadingStrategy();
 
 // Computed properties for better template readability
 const pageContent = computed(() => data.value);
@@ -43,16 +47,16 @@ watchEffect(() => {
         {{ pageTitle }}
       </h1>
 
-      <div v-for="block in websiteBlocks" :key="block.id">
+      <div v-for="(block, blockIndex) in websiteBlocks" :key="block.id">
         <h2 class="portfolio__subtitle">
           <img width="15" height="15" src="/img/icons/check.svg" alt="Check icon">
           {{ block.title }}
         </h2>
 
         <div class="portfolio__inner">
-          <Card
-v-for="card in block.card" :key="card.id" :title="card.title" :sub-title="card.subTitle"
-            :image="useGetImage(card.image.url)" :url="card.url" />
+          <Card v-for="(card, cardIndex) in block.card" :key="card.id" :title="card.title" :sub-title="card.subTitle"
+            :image="useGetImage(card.image.url)" :url="card.url"
+            v-bind="getImagesLoadingStrategy(blockIndex, cardIndex, websiteBlocks)" />
         </div>
       </div>
 

@@ -5,12 +5,16 @@ import {
 } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 import { useGetImage } from '~/composables/useGetImage';
+import { useImageLoadingStrategy } from '~/composables/useImageLoadingStrategy';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await useJavascriptPage();
 
 // Enhanced loading state management
 const { isLoading, hasError, isReady } = useLoadingState(pending, error);
+
+// Image loading strategy
+const { getImagesLoadingStrategy } = useImageLoadingStrategy();
 
 // Computed properties for better template readability
 const pageContent = computed(() => data.value);
@@ -56,9 +60,9 @@ watchEffect(() => {
         </h2>
 
         <div class="portfolio__inner">
-          <Card
-v-for="card in websiteProjects" :key="card.id" :title="card.title" :sub-title="card.subTitle"
-            :image="useGetImage(card.image.url)" :url="card.url" />
+          <Card v-for="(card, cardIndex) in websiteProjects" :key="card.id" :title="card.title"
+            :sub-title="card.subTitle" :image="useGetImage(card.image.url)" :url="card.url"
+            v-bind="getImagesLoadingStrategy(0, cardIndex, [{ card: websiteProjects }])" />
         </div>
       </div>
 
