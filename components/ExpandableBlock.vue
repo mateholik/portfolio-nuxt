@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import markdownIt from 'markdown-it';
-
 type ExpandableBlockProps = {
   isOpen: boolean;
   iconName: string;
@@ -8,10 +6,9 @@ type ExpandableBlockProps = {
   answer: string;
 }
 
-
 const props = defineProps<ExpandableBlockProps>();
 
-const md = markdownIt();
+const { render } = useMarkdown();
 
 const isOpen = ref(props.isOpen);
 
@@ -38,7 +35,7 @@ const toggle = (event: Event) => {
       <img :class="{ rotate: isOpen }" class="item__header-rot" :src="`/img/icons/arrow2.svg`">
     </h2>
     <transition name="faq-animation" enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-      <p v-if="isOpen" class="item__content" v-html="md.render(answer)" />
+      <p v-if="isOpen" class="item__content" v-html="render(answer)" />
     </transition>
   </div>
 </template>

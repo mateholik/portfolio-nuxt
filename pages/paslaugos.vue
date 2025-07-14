@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import markdownIt from 'markdown-it';
 import { useServicesPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 
@@ -13,7 +12,7 @@ const { isLoading, hasError, isReady } = useLoadingState(pending, error);
 const pageContent = computed(() => data.value);
 const services = computed(() => pageContent.value?.services || []);
 
-const md = markdownIt();
+const { render } = useMarkdown();
 
 // Helper function to get service icon
 const getServiceIcon = (index: number): string => {
@@ -59,7 +58,7 @@ watchEffect(() => {
           {{ block.title }}
         </h1>
         <div class="paslaugos__content">
-          <div v-html="md.render(block.text)" />
+          <div v-html="render(block.text)" />
         </div>
       </div>
 

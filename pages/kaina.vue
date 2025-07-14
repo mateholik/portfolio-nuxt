@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import NumberAnimation from 'vue-number-animation';
 import { useCalculator } from '~/composables/useCalculator';
-import markdownIt from 'markdown-it';
 import { usePricePage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 
@@ -39,7 +38,7 @@ const theFormat = (value: number) => {
   return value.toFixed();
 };
 
-const md = markdownIt();
+const { render } = useMarkdown();
 
 // Watch for data changes and reinitialize calculator
 watch(
@@ -97,7 +96,7 @@ watchEffect(() => {
         {{ totalPriceText[1] }}
       </div>
 
-      <div v-if="pageContent.mobText" class="mob-text" v-html="md.render(pageContent.mobText)" />
+      <div v-if="pageContent.mobText" class="mob-text" v-html="render(pageContent.mobText)" />
 
       <div v-if="calcBlocks.length > 0" ref="answers" class="calc__table">
         <div v-for="(column, i) in calcBlocks" :key="i" style="flex: 1">
