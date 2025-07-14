@@ -16,9 +16,10 @@ export default createConfigForNuxt(
       'vue/html-self-closing': 'warn',
       'vue/attributes-order': 'warn',
       'vue/attribute-hyphenation': 'warn',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-empty-object-type': 'warn',
+
+      // Make TypeScript errors fail the build
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   }
 );

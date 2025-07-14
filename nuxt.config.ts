@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   css: ['~/assets/scss/main.scss'],
   modules: ['@nuxtjs/strapi', 'nuxt-icons', '@nuxt/eslint'],
 
+  // Enable TypeScript checking but skip node_modules
+  typescript: {
+    typeCheck: 'build',
+  },
+
   runtimeConfig: {
     public: {
       strapiApiUrl: process.env.STRAPI_API_URL || 'http://localhost:1337',

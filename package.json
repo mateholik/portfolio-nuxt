@@ -9,7 +9,11 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "type-check": "nuxi typecheck",
+    "validate": "pnpm run lint && pnpm run type-check",
+    "build:safe": "pnpm run validate && pnpm run build",
+    "generate:safe": "pnpm run validate && pnpm run generate"
   },
   "dependencies": {
     "@inotom/vue-go-top": "^2.0.0",
