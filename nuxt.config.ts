@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/strapi', 'nuxt-icons', '@nuxt/eslint'],
+  modules: ['@nuxtjs/strapi', 'nuxt-icons', '@nuxt/eslint', '@nuxtjs/sitemap'],
 
   // Enable TypeScript checking but skip node_modules errors
   typescript: {
@@ -33,5 +33,43 @@ export default defineNuxtConfig({
         lang: 'lt',
       },
     },
+  },
+
+  // Sitemap configuration
+  sitemap: {
+    hostname: process.env.NUXT_PUBLIC_SITE_URL || 'https://vladis.lt',
+    gzip: true,
+    exclude: ['/api/**', '/__sitemap__/**'],
+    defaults: {
+      changefreq: 'weekly',
+      priority: 0.5,
+    },
+    urls: [
+      {
+        loc: '/',
+        priority: 1.0,
+        changefreq: 'daily',
+      },
+      {
+        loc: '/paslaugos',
+        priority: 0.9,
+        changefreq: 'monthly',
+      },
+      {
+        loc: '/javascript',
+        priority: 0.8,
+        changefreq: 'weekly',
+      },
+      {
+        loc: '/kaina',
+        priority: 0.7,
+        changefreq: 'monthly',
+      },
+      {
+        loc: '/duk',
+        priority: 0.6,
+        changefreq: 'monthly',
+      },
+    ],
   },
 });
