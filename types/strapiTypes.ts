@@ -3,7 +3,7 @@
 // Base Strapi types
 export interface StrapiResponse<T> {
   data: T;
-  meta: {};
+  meta: Record<string, unknown>;
 }
 
 export interface StrapiMedia {
@@ -78,7 +78,7 @@ export interface SEO {
   metaSocial?: MetaSocial[];
   keywords?: string;
   metaRobots?: string;
-  structuredData?: any; // JSON type
+  structuredData?: Record<string, unknown>; // JSON type
   metaViewport?: string;
   canonicalURL?: string;
 }

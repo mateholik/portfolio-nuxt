@@ -1,26 +1,18 @@
-import type { AsyncData } from 'nuxt/app';
 import type {
-  PortfolioPageResponse,
-  JavascriptPageResponse,
-  ServicesPageResponse,
-  FAQPageResponse,
-  PricePageResponse,
-  SidebarResponse,
   PortfolioPage,
   JavascriptPage,
   ServicesPage,
   FAQPage,
   PricePage,
   Sidebar,
-  SEO,
 } from '~/types/strapiTypes';
 
 export interface StrapiDataOptions {
   key?: string;
   server?: boolean;
   lazy?: boolean;
-  default?: () => any;
-  transform?: (data: any) => any;
+  default?: () => unknown;
+  transform?: (data: unknown) => unknown;
 }
 
 export interface StrapiDataResult<T> {
@@ -80,7 +72,7 @@ export const useStrapiData = () => {
     );
 
     return {
-      data,
+      data: data as Ref<T | null>,
       pending,
       error,
       refresh,
@@ -154,10 +146,15 @@ export const useSidebarData = async (options: StrapiDataOptions = {}) => {
 /**
  * Utility function to safely access nested properties
  */
-export const safeGet = <T>(obj: any, path: string, defaultValue?: T): T => {
-  return path.split('.').reduce((current, key) => {
-    return current?.[key] !== undefined ? current[key] : defaultValue;
-  }, obj);
+export const safeGet = <T>(
+  obj: Record<string, unknown>,
+  path: string,
+  defaultValue?: T
+): T => {
+  return path.split('.').reduce((current: unknown, key: string) => {
+    const currentObj = current as Record<string, unknown>;
+    return currentObj?.[key] !== undefined ? currentObj[key] : defaultValue;
+  }, obj) as T;
 };
 
 /**

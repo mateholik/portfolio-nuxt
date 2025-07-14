@@ -2,7 +2,6 @@
 import ExpandableBlock from '~/components/ExpandableBlock.vue';
 import { useFaqPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
-import type { FAQPage } from '~/types/strapiTypes';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await useFaqPage();
@@ -51,20 +50,14 @@ watchEffect(() => {
       </div>
 
       <h2>
-        <img src="/img/icons/question.svg" alt="Question icon" >
+        <img src="/img/icons/question.svg" alt="Question icon">
         {{ faqTitle }}
       </h2>
 
       <div v-if="faqs.length > 0" class="faq__inner">
         <ClientOnly>
-          <ExpandableBlock
-            v-for="(item, index) in faqs"
-            :key="item.id"
-            :is-open="index === 0"
-            :icon-name="item.Icon || 'question'"
-            :question="item.question"
-            :answer="item.answer"
-          />
+          <ExpandableBlock v-for="(item, index) in faqs" :key="item.id" :is-open="index === 0"
+            :icon-name="item.Icon || 'question'" :question="item.question" :answer="item.answer" />
         </ClientOnly>
       </div>
 

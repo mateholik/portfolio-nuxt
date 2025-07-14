@@ -54,7 +54,6 @@ export const useSeoMetaCustom = (
   const metaTagsObj = computed(() => {
     const title = seoContent?.metaTitle || defaultTitle;
     const description = seoContent?.metaDescription || defaultDescription;
-    const image = getBestImage(seoContent);
     const facebookMeta = getSocialMeta(seoContent, 'Facebook');
     const twitterMeta = getSocialMeta(seoContent, 'Twitter');
 

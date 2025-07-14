@@ -1,11 +1,11 @@
 declare module 'markdown-it' {
   interface MarkdownIt {
     render(markdown: string): string;
-    parse(src: string, env?: any): any;
+    parse(src: string, env?: unknown): unknown;
   }
 
   interface MarkdownItConstructor {
-    new (presetName?: string, options?: any): MarkdownIt;
+    new (presetName?: string, options?: unknown): MarkdownIt;
     (): MarkdownIt;
   }
 

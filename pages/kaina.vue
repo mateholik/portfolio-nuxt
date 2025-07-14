@@ -4,7 +4,6 @@ import { useCalculator } from '~/composables/useCalculator';
 import markdownIt from 'markdown-it';
 import { usePricePage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
-import type { PricePage } from '~/types/strapiTypes';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await usePricePage();
@@ -84,7 +83,7 @@ watchEffect(() => {
 
     <div v-else-if="isReady && pageContent" class="calc">
       <h1>
-        <img src="/img/icons/euro.svg" alt="Euro icon" >
+        <img src="/img/icons/euro.svg" alt="Euro icon">
         {{ pageTitle }}
       </h1>
 
@@ -92,24 +91,13 @@ watchEffect(() => {
         {{ totalPriceText[0] }}
         <span class="calc__price-number">
           <ClientOnly>
-            <NumberAnimation
-              :from="0"
-              :to="totalPrice"
-              :format="theFormat"
-              :duration="0.3"
-              autoplay
-              easing="linear"
-            />
+            <NumberAnimation :from="0" :to="totalPrice" :format="theFormat" :duration="0.3" autoplay easing="linear" />
           </ClientOnly>
         </span>
         {{ totalPriceText[1] }}
       </div>
 
-      <div
-        v-if="pageContent.mobText"
-        class="mob-text"
-        v-html="md.render(pageContent.mobText)"
-      />
+      <div v-if="pageContent.mobText" class="mob-text" v-html="md.render(pageContent.mobText)" />
 
       <div v-if="calcBlocks.length > 0" ref="answers" class="calc__table">
         <div v-for="(column, i) in calcBlocks" :key="i" style="flex: 1">
@@ -117,13 +105,8 @@ watchEffect(() => {
             <div class="calc__column calc__column--main">
               {{ column.blockTitle }}
             </div>
-            <div
-              v-for="(item, index) in column.option"
-              :key="index"
-              class="calc__column"
-              :class="{ active: item.active }"
-              @click="selectOptionInBlock(item, i)"
-            >
+            <div v-for="(item, index) in column.option" :key="index" class="calc__column"
+              :class="{ active: item.active }" @click="selectOptionInBlock(item, i)">
               {{ item.title || 'Option' }}
             </div>
           </div>
@@ -135,25 +118,18 @@ watchEffect(() => {
         {{ totalPriceText[0] }}
         <span class="calc__price-number">
           <ClientOnly>
-            <NumberAnimation
-              :from="0"
-              :to="totalPrice"
-              :format="theFormat"
-              :duration="0.3"
-              autoplay
-              easing="linear"
-            />
+            <NumberAnimation :from="0" :to="totalPrice" :format="theFormat" :duration="0.3" autoplay easing="linear" />
           </ClientOnly>
         </span>
         {{ totalPriceText[1] }}
       </div>
 
-      <br >
+      <br>
 
       <transition name="hint">
         <div v-if="hintObj.description" class="hint">
           <h3>
-            <img src="/img/icons/question.svg" alt="Question icon" >
+            <img src="/img/icons/question.svg" alt="Question icon">
             {{ hintObj.title }}
           </h3>
           <p>{{ hintObj.description }}</p>

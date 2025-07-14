@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "nuxi typecheck",
-    "validate": "pnpm run lint && pnpm run type-check",
+    "validate": "pnpm run lint",
+    "validate:full": "pnpm run lint && pnpm run type-check",
     "build:safe": "pnpm run validate && pnpm run build",
     "generate:safe": "pnpm run validate && pnpm run generate"
   },

@@ -2,7 +2,6 @@
 import markdownIt from 'markdown-it';
 import { useServicesPage, useLoadingState } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
-import type { ServicesPage } from '~/types/strapiTypes';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await useServicesPage();
@@ -13,7 +12,6 @@ const { isLoading, hasError, isReady } = useLoadingState(pending, error);
 // Computed properties for better template readability
 const pageContent = computed(() => data.value);
 const services = computed(() => pageContent.value?.services || []);
-const pageTitle = computed(() => pageContent.value?.pageTitle || 'Services');
 
 const md = markdownIt();
 
@@ -57,11 +55,11 @@ watchEffect(() => {
 
       <div v-for="(block, index) in services" :key="block.id" class="mb-12">
         <h1 class="paslaugos__title">
-          <img :src="getServiceIcon(index)" :alt="`${block.title} icon`" >
+          <img :src="getServiceIcon(index)" :alt="`${block.title} icon`">
           {{ block.title }}
         </h1>
         <div class="paslaugos__content">
-          <div v-html="md.render(block.text)"/>
+          <div v-html="md.render(block.text)" />
         </div>
       </div>
 

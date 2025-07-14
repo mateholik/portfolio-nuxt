@@ -5,7 +5,6 @@ import {
 } from '~/composables/useStrapiData';
 import { useSeoMetaCustom } from '~/composables/useSeoMetaCustom';
 import { useGetImage } from '~/composables/useGetImage';
-import type { JavascriptPage } from '~/types/strapiTypes';
 
 // Use the new centralized data fetching
 const { data, pending, error, refresh } = await useJavascriptPage();
@@ -46,25 +45,19 @@ watchEffect(() => {
 
     <div v-else-if="isReady && pageContent">
       <h1 class="portfolio__title">
-        <img src="/img/icons/portfolio.svg" alt="Portfolio icon" >
+        <img src="/img/icons/portfolio.svg" alt="Portfolio icon">
         {{ pageTitle }}
       </h1>
 
       <div v-if="websiteProjects.length > 0">
         <h2 class="portfolio__subtitle">
-          <img src="/img/icons/check.svg" alt="Check icon" >
+          <img src="/img/icons/check.svg" alt="Check icon">
           {{ websiteTitle }}
         </h2>
 
         <div class="portfolio__inner">
-          <Card
-            v-for="card in websiteProjects"
-            :key="card.id"
-            :title="card.title"
-            :sub-title="card.subTitle"
-            :image="useGetImage(card.image.url)"
-            :url="card.url"
-          />
+          <Card v-for="card in websiteProjects" :key="card.id" :title="card.title" :sub-title="card.subTitle"
+            :image="useGetImage(card.image.url)" :url="card.url" />
         </div>
       </div>
 
