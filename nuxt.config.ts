@@ -7,6 +7,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       strapiApiUrl: process.env.STRAPI_API_URL || 'http://localhost:1337',
+      // Optional flag to force static images even in development
+      useStaticImages: process.env.USE_STATIC_IMAGES === 'true',
     },
   },
 
