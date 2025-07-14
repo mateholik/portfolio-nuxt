@@ -21,7 +21,9 @@ export default defineNuxtConfig({
     public: {
       strapiApiUrl: process.env.STRAPI_API_URL || 'http://localhost:1337',
       // Optional flag to force static images even in development
-      useStaticImages: process.env.USE_STATIC_IMAGES === 'true',
+      useStaticImages:
+        process.env.USE_STATIC_IMAGES === 'true' ||
+        process.env.NODE_ENV === 'production',
       siteUrl: 'https://vladis.lt',
     },
   },
@@ -31,6 +33,25 @@ export default defineNuxtConfig({
     prefix: '/api',
     version: 'v4',
   },
+
+  // Enable static site generation
+  nitro: {
+    prerender: {
+      routes: [
+        '/sitemap.xml',
+        '/',
+        '/paslaugos',
+        '/javascript',
+        '/kaina',
+        '/duk',
+      ],
+      // Force data fetching during build
+      crawlLinks: true,
+    },
+  },
+
+  // SSG configuration
+  ssr: true,
 
   // SEO and performance optimizations
   app: {

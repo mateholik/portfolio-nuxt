@@ -37,12 +37,17 @@ export const useStrapiData = () => {
     endpoint: string,
     options: StrapiDataOptions = {}
   ): Promise<StrapiDataResult<T>> => {
-    const { key = endpoint, server = true, lazy = false, transform } = options;
+    const { key = endpoint, transform } = options;
 
     const { data, pending, error, refresh, execute } = await useAsyncData(
       key,
       async () => {
         try {
+          console.log(
+            `🔍 [DEBUG] Fetching ${endpoint} - Server: ${
+              import.meta.server
+            }, Client: ${import.meta.client}, ENV: ${process.env.NODE_ENV}`
+          );
           const response = await strapi.findOne(endpoint);
 
           if (!response?.data) {
@@ -54,6 +59,11 @@ export const useStrapiData = () => {
             ? transform(response.data)
             : response.data;
 
+          console.log(
+            `✅ [DEBUG] Successfully fetched ${endpoint} - Data keys: ${Object.keys(
+              transformedData || {}
+            ).join(', ')}`
+          );
           return transformedData;
         } catch (err) {
           const error = err as Error;
@@ -61,6 +71,11 @@ export const useStrapiData = () => {
             `❌ [useStrapiData] Error fetching ${endpoint}:`,
             error
           );
+          console.log(
+            `🔍 [DEBUG] Current environment: ${process.env.NODE_ENV}`
+          );
+          console.log(`🔍 [DEBUG] Is server: ${import.meta.server}`);
+          console.log(`🔍 [DEBUG] Is client: ${import.meta.client}`);
           throw createError({
             statusCode: 500,
             statusMessage: `Failed to fetch ${endpoint}`,
@@ -69,9 +84,14 @@ export const useStrapiData = () => {
         }
       },
       {
-        server,
-        lazy,
+        // Ensure data is fetched during build for SSG
+        server: true,
+        lazy: false,
         default: () => options.default?.() || null,
+        // Critical: For SSG, only fetch on server during build
+        transform: (data) => data,
+        // Ensure proper caching during prerendering
+        dedupe: 'defer',
       }
     );
 
