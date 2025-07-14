@@ -57,7 +57,7 @@ watch(
         <template v-else-if="isReady && sidebarContent">
           <NuxtLink to="/" class="me">
             <div class="me__img">
-              <img :src="profileImage" alt="Profile image">
+              <img width="150" height="150" :src="profileImage" alt="Profile image">
             </div>
             <div class="me__title">{{ sidebarContent.title }}</div>
             <div class="me__subtitle">{{ sidebarContent.subTitle }}</div>
@@ -77,7 +77,7 @@ watch(
               </div>
 
               <div class="nav__mobile-btn" @click="mobileNav = !mobileNav">
-                <img src="/img/icons/menu.svg" alt="Menu">
+                <img width="20" height="20" src="/img/icons/menu.svg" alt="Menu">
               </div>
             </div>
 

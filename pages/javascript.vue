@@ -45,13 +45,13 @@ watchEffect(() => {
 
     <div v-else-if="isReady && pageContent">
       <h1 class="portfolio__title">
-        <img src="/img/icons/portfolio.svg" alt="Portfolio icon">
+        <img width="30" height="30" src="/img/icons/portfolio.svg" alt="Portfolio icon">
         {{ pageTitle }}
       </h1>
 
       <div v-if="websiteProjects.length > 0">
         <h2 class="portfolio__subtitle">
-          <img src="/img/icons/check.svg" alt="Check icon">
+          <img width="15" height="15" src="/img/icons/check.svg" alt="Check icon">
           {{ websiteTitle }}
         </h2>
 
