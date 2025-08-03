@@ -1,7 +1,7 @@
 import markdownIt from 'markdown-it';
 
 export const useMarkdown = () => {
-  const md = markdownIt();
+  const md = markdownIt({ html: true });
 
   // Configure markdown to open links in new windows
   /* eslint-disable @typescript-eslint/no-explicit-any */
