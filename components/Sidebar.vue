@@ -30,6 +30,7 @@ const fallbackMenuItems = [
   { id: 3, title: 'Services', path: '/paslaugos' },
   { id: 4, title: 'Price', path: '/kaina' },
   { id: 5, title: 'FAQ', path: '/duk' },
+  { id: 5, title: 'CV', path: '/cv' },
 ];
 
 const router = useRouter();
@@ -57,7 +58,12 @@ watch(
         <template v-else-if="isReady && sidebarContent">
           <NuxtLink to="/" class="me">
             <div class="me__img">
-              <img width="150" height="150" :src="profileImage" alt="Profile image">
+              <img
+                width="150"
+                height="150"
+                :src="profileImage"
+                alt="Profile image"
+              />
             </div>
             <div class="me__title">{{ sidebarContent.title }}</div>
             <div class="me__subtitle">{{ sidebarContent.subTitle }}</div>
@@ -65,11 +71,22 @@ watch(
 
           <div class="nav">
             <div class="nav__mobile">
-              <div v-if="socialLinks.length > 0" class="socials socials--mobile">
+              <div
+                v-if="socialLinks.length > 0"
+                class="socials socials--mobile"
+              >
                 <ul class="socials__ul">
-                  <li v-for="item in socialLinks" :key="item.id" class="socials__li socials__li--mobile">
-                    <a class="socials__link" target="_blank" :href="item.link"
-                      :aria-label="`Visit my ${item.title} profile`">
+                  <li
+                    v-for="item in socialLinks"
+                    :key="item.id"
+                    class="socials__li socials__li--mobile"
+                  >
+                    <a
+                      class="socials__link"
+                      target="_blank"
+                      :href="item.link"
+                      :aria-label="`Visit my ${item.title} profile`"
+                    >
                       <nuxt-icon :name="item.iconName" />
                       <span>{{ item.title }}</span>
                     </a>
@@ -78,13 +95,21 @@ watch(
               </div>
 
               <div class="nav__mobile-btn" @click="mobileNav = !mobileNav">
-                <img width="20" height="20" src="/img/icons/menu.svg" alt="Menu">
+                <img
+                  width="20"
+                  height="20"
+                  src="/img/icons/menu.svg"
+                  alt="Menu"
+                />
               </div>
             </div>
 
             <ul class="nav__ul--desktop">
               <li v-for="item in menuItems" :key="item.id" class="nav__li">
                 <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
+              </li>
+              <li class="nav__li">
+                <NuxtLink to="/cv">CV</NuxtLink>
               </li>
             </ul>
 
@@ -93,15 +118,26 @@ watch(
                 <li v-for="item in menuItems" :key="item.id" class="nav__li">
                   <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
                 </li>
+                <li class="nav__li">
+                  <NuxtLink to="/cv">CV</NuxtLink>
+                </li>
               </ul>
             </Transition>
           </div>
 
           <div v-if="socialLinks.length > 0" class="socials">
             <ul class="socials__ul">
-              <li v-for="item in socialLinks" :key="item.id" class="socials__li socials__li">
-                <a class="socials__link" target="_blank" :href="item.link"
-                  :aria-label="`Visit my ${item.title} profile`">
+              <li
+                v-for="item in socialLinks"
+                :key="item.id"
+                class="socials__li socials__li"
+              >
+                <a
+                  class="socials__link"
+                  target="_blank"
+                  :href="item.link"
+                  :aria-label="`Visit my ${item.title} profile`"
+                >
                   <nuxt-icon :name="item.iconName" />
                   <span>{{ item.title }}</span>
                 </a>

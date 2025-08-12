@@ -4,6 +4,9 @@ import SocialsCta from '~/components/SocialsCta.vue';
 
 <template>
   <div>
+    <ClientOnly>
+      <GoogleTranslate />
+    </ClientOnly>
     <Sidebar />
     <div class="container">
       <slot />

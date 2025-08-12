@@ -2,7 +2,18 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/strapi', 'nuxt-icons', '@nuxt/eslint', '@nuxtjs/sitemap'],
+  modules: [
+    '@nuxtjs/strapi',
+    'nuxt-icons',
+    '@nuxt/eslint',
+    '@nuxtjs/sitemap',
+    'nuxt-google-translate',
+  ],
+
+  googleTranslate: {
+    defaultLanguage: 'en', // Set the default language
+    supportedLanguages: ['en', 'fr', 'es', 'de', 'ja'], // Supported languages
+  },
 
   // Enable TypeScript checking but skip node_modules errors
   typescript: {
