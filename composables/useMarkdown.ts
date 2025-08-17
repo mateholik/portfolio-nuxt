@@ -26,6 +26,10 @@ export const useMarkdown = () => {
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
   return {
-    render: (content: string) => md.render(content),
+    render: (content: string) => {
+      const html = md.render(content);
+      // Wrap the entire content in a container with a class
+      return `<div class="md">${html}</div>`;
+    },
   };
 };
