@@ -146,7 +146,7 @@ watch(
           </div>
         </template>
       </div>
-      <Copyright />
+      <!-- <Copyright /> -->
     </div>
   </aside>
 </template>

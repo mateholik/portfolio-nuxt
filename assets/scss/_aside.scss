@@ -36,7 +36,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    padding: 45px 40px;
+    padding: 3rem;
     @include mQ(768px) {
       overflow: initial;
       height: auto;
@@ -78,7 +78,7 @@
     }
   }
   .nav {
-    margin: 4.5rem -4rem;
+    margin: 3.6rem -4rem;
     line-height: 3rem;
     position: relative;
     font-size: 1.4rem;
